@@ -4,6 +4,9 @@
 var sqlite3 = require('sqlite3').verbose();
 var fs = require('fs');
 var util = require('util');
+var QuranData = require('../contrib/quran-data');
+
+var db;
 
 /* file format
  * arabic
@@ -33,38 +36,51 @@ function readFile(file,cb) {
 }
 
 function initdb(rows) {
-  var db = new sqlite3.Database('qurandb');
-  var table = process.argv[2];
+  var table = 'arabic';
+  db = new sqlite3.Database('data/qurandb');
   db.serialize(function() {
-    db.run("CREATE TABLE " + table + " (arabic TEXT,verse INTEGER,chapter INTEGER)",function(err) {
+    db.run("CREATE TABLE " + table + " (chapter INTEGER,verse INTEGER, arabic TEXT)",function(err) {
       if (!err) {
         var stmt = db.prepare("INSERT INTO " + table + " VALUES (?,?,?)");
         rows.forEach(function(row,index) {
           stmt.run(row);
           if (index % 1000 == 0) {
             stmt.finalize();
-            console.log('added 1000 verses');
             stmt = db.prepare("INSERT INTO " + table + " VALUES (?,?,?)");
           }
         });
       } else {
         console.log(err);
-        console.log(row);
       }
+      loadmeta();
     });
 
   });
 
 }
 
+function loadmeta() {
+  db.serialize(function() {
+    var sql = 'CREATE TABLE chapters (start INTEGER, ayas INTEGER, ord INTEGER, rukus INTEGER, arname TEXT, tname TEXT, ' + 
+              'enname TEXT, type TEXT, id INTEGER);';
+    db.run(sql,function(err) {
+      if (!err) {
+        var stmt = db.prepare('INSERT INTO chapters values (?,?,?,?,?,?,?,?,?)');
+        QuranData.Sura.forEach(function(x,idx) {
+          if (idx && idx < 115) {
+            x.push(idx);
+            stmt.run(x);
+          }
+        });
+        stmt.finalize();
+      } else {
+        console.log(err);
+      }
+    });
+  });
+}
+
 (function main() {
-  process.argv.shift();
-  if (process.argv.length < 3) {
-    console.log(util.format('Usage: %s <fileondisk> <table>',process.argv[0]));
-    process.exit(1);
-  }
+  readFile(process.argv[2],initdb);
 
-  console.log('going to load ' + process.argv[1] + ' to table ' + process.argv[2]);
-
-  readFile(process.argv[1],initdb);
 }());

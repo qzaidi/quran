@@ -13,11 +13,23 @@ log() {
   echo "  ○ $@"
 }
 
-log 'Downloading Quran from Tanzil.net'
-if test -e $QURANTXT; then
+download() {
+  log "Downloading $2"
+  if test -e "$2"; then
+    log "$2 already downloaded, skipping"
+  else
+    curl $1 > $2 || abort "failed while downloading $2"
+  fi
+}
+
+if test -e contrib/$QURANTXT; then
   log 'already downloaded - skipping'
 else
-  curl -d 'quranType=uthmani&marks=true&sajdah=true&alef=true&outType=txt&agree=true' http://tanzil.net/pub/download/download.php  > $QURANTXT || abort 'download failed'
+  curl -d 'quranType=uthmani&marks=true&sajdah=true&alef=true&outType=txt-2&agree=true' http://tanzil.net/pub/download/download.php  > contrib/$QURANTXT || abort 'download failed'
 fi
 
-node quran/loader.js $QURANTXT arabic
+
+download http://tanzil.net/res/text/metadata/quran-data.js contrib/quran-data.js
+grep -q module.exports contrib/quran-data.js || echo 'module.exports = QuranData;' >> contrib/quran-data.js
+
+node quran/loader.js contrib/$QURANTXT arabic

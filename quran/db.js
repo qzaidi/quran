@@ -10,7 +10,9 @@ var dbopts = {
 module.exports = function(dbfile,opt) {
   var db;
   var options = dbopts[opt || 'r'];
-  db = new sqlite3.Database(__dirname + '/../data/' + dbfile, options);
+  var file = __dirname + '/../data/' + dbfile;
+  console.log('opening db from ' + file);
+  db = new sqlite3.Database(file, options);
 
   return db;
 }
