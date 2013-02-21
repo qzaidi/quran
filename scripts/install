@@ -1,0 +1,23 @@
+#!/bin/sh
+
+QURANTXT=quran-uthmani.txt
+
+abort() {
+  echo
+  echo "  $@" 1>&2
+  echo
+  exit 1
+}
+
+log() {
+  echo "  ○ $@"
+}
+
+log 'Downloading Quran from Tanzil.net'
+if test -e $QURANTXT; then
+  log 'already downloaded - skipping'
+else
+  curl -d 'quranType=uthmani&marks=true&sajdah=true&alef=true&outType=txt&agree=true' http://tanzil.net/pub/download/download.php  > $QURANTXT || abort 'download failed'
+fi
+
+node quran/loader.js $QURANTXT arabic

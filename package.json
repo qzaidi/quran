@@ -1,0 +1,16 @@
+{
+  "name": "quran",
+  "version": "0.0.1",
+  "description": "npm module for Al-Quran (tanzil)",
+  "main": "index.js",
+  "dependencies": {
+    "sqlite3": "*"
+   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "sh scripts/install"
+  },
+  "repository": "git://github.com/qzaidi/quran.git",
+  "author": "Qasim Zaidi",
+  "license": "LGPL"
+}
