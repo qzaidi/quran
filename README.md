@@ -13,8 +13,10 @@ Usage
 
 var quran = require('quran');
 
-quran.get(1,1,function(err,res) {
+...
+quran.get(1,1,function(err,verse) {
   if (!err) {
-    console.log('Verse 1: Chapter 1: ' + res);
+    console.log('Verse 1: Chapter 1: ' + verse);
   }
 });
+...
