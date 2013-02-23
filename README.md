@@ -32,6 +32,8 @@ quran.get(1,function(err,verses) {
   }
 });
 ```
+verses is an array, so you can join them in the above.
+
 .get is simply a wrapper on select, so you can directly invoke it
 and do advanced filtering, like getting verse 2-4 of first chapter.
 
@@ -42,6 +44,7 @@ quran.select({ chapter: 1}, { offset: 1, limit: 3}, function(err,verses) {
   }
 });
 ```
+verses is an array of objects, and has additional info (chapter number, verse number).
 
 You can also fetch meta data about a chapter 
 

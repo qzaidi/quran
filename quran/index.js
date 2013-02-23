@@ -9,7 +9,13 @@ var quran = {
       callback = verse;
       verse = undefined;
     }
-    this.select({ chapter: chapter, verse: verse }, callback);
+    this.select({ chapter: chapter, verse: verse }, function(err,res) {
+      var verses;
+      if (!err && res.length) {
+        verses = res.map(function(x) { return x.arabic; });
+      }
+      callback(err,verses);
+    });
   },
 
   select: function(filters,options,callback) {
@@ -38,15 +44,7 @@ var quran = {
       });
     }
 
-    console.log(query);
-
-    qurandb.all(query,function(err,res) {
-      var verses;
-      if (!err && res.length) {
-        verses = res.map(function(x) { return x.arabic; });
-      }
-      callback(err,verses);
-    });
+    qurandb.all(query,callback);
   },
 
   chapter: function(chapterNum,callback) {
