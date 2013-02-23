@@ -8,7 +8,7 @@
    },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "sh scripts/install"
+    "prepublish": "sh scripts/install"
   },
   "repository": "git://github.com/qzaidi/quran.git",
   "author": "Qasim Zaidi",
