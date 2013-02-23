@@ -22,11 +22,11 @@ download() {
   fi
 }
 
+mkdir -p contrib data
+
 if test -e contrib/$QURANTXT; then
   log 'already downloaded - skipping'
 else
-  echo "$PWD"
-  mkdir -p contrib
   curl -d 'quranType=uthmani&marks=true&sajdah=true&alef=true&outType=txt-2&agree=true' http://tanzil.net/pub/download/download.php  > contrib/$QURANTXT || abort 'download failed'
 fi
 
