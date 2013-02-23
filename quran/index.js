@@ -5,14 +5,41 @@ var qurandb = model('qurandb','r');
 
 var quran = {
   get: function(chapter,verse,callback) {
-    var query = 'select * from arabic where chapter=' + Number(chapter); 
     if (!callback && typeof (verse) === 'function') {
       callback = verse;
-      query += ' order by verse';
-    } else {
-      query += ' and verse=' + Number(verse);
+      verse = undefined;
     }
+    this.select({ chapter: chapter, verse: verse }, callback);
+  },
+
+  select: function(filters,options,callback) {
+
+    if (!callback && typeof (options) === 'function') {
+      callback = options;
+      options = undefined;
+    } 
+
+    var query = 'select * from arabic where ';
+    var params = [];
+
+    Object.keys(filters).forEach(function(k) { 
+      if (filters[k]) {
+        params.push(' ' + k + '=' + filters[k]);
+      }
+    });
+
+    query += params.join(' and ') +  ' order by verse ';
+
+    if (options) {
+      [ 'limit', 'offset' ].forEach(function(x) {
+        if (options[x]) {
+          query += x + ' ' + options[x] + ' '; 
+        }
+      });
+    }
+
     console.log(query);
+
     qurandb.all(query,function(err,res) {
       var verses;
       if (!err && res.length) {
@@ -21,6 +48,7 @@ var quran = {
       callback(err,verses);
     });
   },
+
   chapter: function(chapterNum,callback) {
     var query = 'select * from chapters';
     if (!callback && typeof(chapterNum) == 'function') {

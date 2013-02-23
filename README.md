@@ -26,9 +26,37 @@ quran.get(2,1,function(err,verse) {
 Fetch the first chapter
 
 ```
-quran.get(1,function(err,verse) {
+quran.get(1,function(err,verses) {
   if (!err) {
-    console.log('Verse 1: Chapter 1: ' + verse);
+    console.log('Chapter 1: ' + verses.join(','));
+  }
+});
+```
+.get is simply a wrapper on select, so you can directly invoke it
+and do advanced filtering, like getting verse 2-4 of first chapter.
+
+```
+quran.select({ chapter: 1}, { offset: 1, limit: 3}, function(err,verses) {
+  if (!err) {
+    console.log(verses);
+  }
+});
+```
+
+You can also fetch meta data about a chapter 
+
+```
+quran.chapter(1,function(err,info) {
+  if (!err) {
+    console.log(info);
+  }
+});
+```
+Or all the chapters, by omitting the first argument
+```
+quran.chapter(function(err,info) {
+  if (!err) {
+    console.log(info);
   }
 });
 ```
