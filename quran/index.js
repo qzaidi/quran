@@ -13,10 +13,28 @@ var quran = {
       query += ' and verse=' + Number(verse);
     }
     console.log(query);
-    qurandb.all(query,callback);
+    qurandb.all(query,function(err,res) {
+      var verses;
+      if (!err && res.length) {
+        verses = res.map(function(x) { return x.arabic; });
+      }
+      callback(err,verses);
+    });
   },
-  chapterInfo: function(chapterNum) {
+  chapter: function(chapterNum,callback) {
+    var query = 'select * from chapters';
+    if (!callback && typeof(chapterNum) == 'function') {
+      callback = chapterNum;
+      chapterNum = undefined;
+    }
 
+    if (chapterNum) {
+      query += ' where id=' + chapterNum;
+    }
+
+    qurandb.all(query, function(err,res) {
+      callback(err,res);
+    });
   }
 };
 
