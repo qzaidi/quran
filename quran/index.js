@@ -19,38 +19,20 @@ var quran = {
   },
 
   select: function(filters,options,callback) {
-
+    var language; 
+    var params = [];
+    var query = 'select * from ar a ';
+    
     if (!callback && typeof (options) === 'function') {
       callback = options;
-      options = undefined;
+      options = {};
     } 
 
-    var query = 'select * from ar where ';
-    var params = [];
+    language = options.language || 'ar';
 
-    Object.keys(filters).forEach(function(k) { 
-      if (filters[k]) {
-        params.push(' ' + k + '=' + filters[k]);
-      }
-    });
-
-    query += params.join(' and ') +  ' order by verse ';
-
-    if (options) {
-      [ 'limit', 'offset' ].forEach(function(x) {
-        if (options[x]) {
-          query += x + ' ' + options[x] + ' '; 
-        }
-      });
+    if (language != 'ar') {
+      query += ' left join en e on a.chapter = e.chapter and a.verse = e.verse';
     }
-
-    qurandb.all(query,callback);
-  },
-
-  selectWithTrans: function(filters,options,callback) {
-    var table = options.language;
-    var query = 'select * from ar a left join en e on a.chapter = e.chapter and a.verse = e.verse' 
-    var params = [];
 
     Object.keys(filters).forEach(function(k) { 
       if (filters[k]) {
