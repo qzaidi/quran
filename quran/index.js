@@ -12,7 +12,7 @@ var quran = {
     this.select({ chapter: chapter, verse: verse }, function(err,res) {
       var verses;
       if (!err && res.length) {
-        verses = res.map(function(x) { return x.arabic; });
+        verses = res.map(function(x) { return x.ar; });
       }
       callback(err,verses);
     });
@@ -25,7 +25,7 @@ var quran = {
       options = undefined;
     } 
 
-    var query = 'select * from arabic where ';
+    var query = 'select * from ar where ';
     var params = [];
 
     Object.keys(filters).forEach(function(k) { 
@@ -44,6 +44,31 @@ var quran = {
       });
     }
 
+    qurandb.all(query,callback);
+  },
+
+  selectWithTrans: function(filters,options,callback) {
+    var table = options.language;
+    var query = 'select * from ar a left join en e on a.chapter = e.chapter and a.verse = e.verse' 
+    var params = [];
+
+    Object.keys(filters).forEach(function(k) { 
+      if (filters[k]) {
+        params.push(' a.' + k + '=' + filters[k]);
+      }
+    });
+
+    query += ' where ' + params.join(' and ') + ' order by verse ';
+
+    if (options) {
+      [ 'limit', 'offset' ].forEach(function(x) {
+        if (options[x]) {
+          query += x + ' ' + options[x] + ' '; 
+        }
+      });
+    }
+    
+    console.log(query);
     qurandb.all(query,callback);
   },
 

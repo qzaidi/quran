@@ -34,4 +34,7 @@ fi
 download http://tanzil.net/res/text/metadata/quran-data.js contrib/quran-data.js
 grep -q module.exports contrib/quran-data.js || echo 'module.exports = QuranData;' >> contrib/quran-data.js
 
-node quran/loader.js contrib/$QURANTXT arabic
+download http://tanzil.net/trans/en.shakir contrib/en.shakir.txt
+
+node quran/loader contrib/$QURANTXT arabic
+node quran/loadtrans contrib/en.shakir.txt

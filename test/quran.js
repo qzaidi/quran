@@ -7,10 +7,17 @@ quran.get(1,1,function(err,v) {
   console.log(err || v);
 });
 
+/*
 console.log('Fetching via select');
 quran.select( { chapter: 1 }, { limit : 3 }, function(err,v) {
   console.log(err || v);
 });
+
+console.log('Fetching via select');
+quran.selectWithTrans( { chapter: 1 }, { language: 'en' }, function(err,v) {
+  console.log(err || v);
+});
+*/
 
 console.log('Fetching chapter 1 - Al Fatiha');
 quran.get(1,function(err,v) {

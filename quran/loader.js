@@ -36,10 +36,10 @@ function readFile(file,cb) {
 }
 
 function initdb(rows) {
-  var table = 'arabic';
+  var table = 'ar';
   db = new sqlite3.Database('data/qurandb');
   db.serialize(function() {
-    db.run("CREATE TABLE " + table + " (chapter INTEGER,verse INTEGER, arabic TEXT)",function(err) {
+    db.run("CREATE TABLE " + table + " (chapter INTEGER,verse INTEGER, " + table + " TEXT)",function(err) {
       if (!err) {
         var stmt = db.prepare("INSERT INTO " + table + " VALUES (?,?,?)");
         rows.forEach(function(row,index) {
@@ -54,9 +54,7 @@ function initdb(rows) {
       }
       loadmeta();
     });
-
   });
-
 }
 
 function loadmeta() {

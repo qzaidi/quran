@@ -45,7 +45,6 @@ function initdb(rows) {
 
   db = new sqlite3.Database('data/qurandb');
   db.serialize(function() {
-    console.log('db inited');
     db.run("CREATE TABLE " + table + " (chapter INTEGER,verse INTEGER, " + table + " TEXT, translator TEXT)",function(err) {
       if (!err) {
         rows.forEach(function(row,index) {
@@ -53,7 +52,6 @@ function initdb(rows) {
           row.push(translator);
           stmt.run(row);
           if (index % 1000 == 0) {
-            console.log('completed ' + index);
             stmt.finalize();
           }
         });
