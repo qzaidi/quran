@@ -68,7 +68,6 @@ var quran = {
       });
     }
     
-    console.log(query);
     qurandb.all(query,callback);
   },
 
