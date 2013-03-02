@@ -1,6 +1,7 @@
 #!/bin/sh
 
 QURANTXT=quran-uthmani.txt
+TRANSLATIONS="en.shakir ur.jawadi hi.hindi"
 
 abort() {
   echo
@@ -34,7 +35,10 @@ fi
 download http://tanzil.net/res/text/metadata/quran-data.js contrib/quran-data.js
 grep -q module.exports contrib/quran-data.js || echo 'module.exports = QuranData;' >> contrib/quran-data.js
 
-download http://tanzil.net/trans/en.shakir contrib/en.shakir.txt
-
 node quran/loader contrib/$QURANTXT arabic
-node quran/loadtrans contrib/en.shakir.txt
+
+for translation in $TRANSLATIONS
+do
+  download http://tanzil.net/trans/$translation contrib/$translation.txt
+  node quran/loadtrans contrib/$translation.txt
+done

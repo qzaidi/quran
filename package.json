@@ -1,8 +1,8 @@
 {
   "name": "quran",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "npm module for Al-Quran (tanzil)",
-  "keywords": [ "islam", "quran", "allah", "muslim", "koran" ],
+  "keywords": [ "islam", "quran", "allah", "muslim", "koran","hindi","urdu" ],
   "main": "index.js",
   "dependencies": {
     "sqlite3": "*"
