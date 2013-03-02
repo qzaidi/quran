@@ -31,7 +31,7 @@ var quran = {
     language = options.language || 'ar';
 
     if (language != 'ar') {
-      query += ' left join en e on a.chapter = e.chapter and a.verse = e.verse';
+      query += ' left join ' + language + ' e on a.chapter = e.chapter and a.verse = e.verse';
     }
 
     Object.keys(filters).forEach(function(k) { 
