@@ -58,7 +58,7 @@ verses is an array of objects, and has additional info (chapter number, verse nu
 
 The second argument to select is optional. 
 
-Currently, only arabic text and a single english translation is supported ( M H Shakir). To fetch both the arabic text and translation,
+Currently, only arabic text and english, hindi and urdu translations are supported. To fetch both the arabic text and translation,
 set the language option to en.
 
 ```
@@ -68,6 +68,36 @@ quran.select({ chapter: 1}, { offset: 1, limit: 3, language: 'en'}, function(err
   }
 });
 ```
+Similarly for hindi
+
+```
+Code:
+quran.select({ chapter: 1}, { offset: 1, limit: 3, language: 'hi'}, function(err,verses) {
+  if (!err) {
+    console.log(verses);
+  }
+});
+Output
+[ 
+  { chapter: 1,
+    verse: 1,
+    ar: 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
+    hi: 'अल्लाह के नाम से जो रहमान व रहीम है।',
+    translator: 'hindi' },
+  { chapter: 1,
+    verse: 2,
+    ar: 'ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ',
+    hi: 'तारीफ़ अल्लाह ही के लिये है जो तमाम क़ायनात का रब है।',
+    translator: 'hindi' },
+  { chapter: 1,
+    verse: 3,
+    ar: 'ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
+    hi: 'रहमान और रहीम है।',
+    translator: 'hindi' } 
+]
+```
+
+
 You can also fetch meta data about a chapter 
 
 ```
@@ -86,3 +116,10 @@ quran.chapter(function(err,info) {
   }
 });
 ```
+
+Sites using this package
+------------------------
+
+http://ali.husain.in/quran.
+
+To add yours, submit a pull request.
