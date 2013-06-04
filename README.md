@@ -115,11 +115,17 @@ quran.chapter(function(err,info) {
     console.log(info);
   }
 });
+
 ```
+
+Credits
+-------
+
+This work is based on Quran Text and Translations made available by http://tanzil.net. 
 
 Sites using this package
 ------------------------
 
-http://ali.husain.in/quran.
+http://duas.mobi/quran.
 
 To add yours, submit a pull request.
