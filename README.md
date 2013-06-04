@@ -58,8 +58,35 @@ verses is an array of objects, and has additional info (chapter number, verse nu
 
 The second argument to select is optional. 
 
-Currently, only arabic text and english, hindi and urdu translations are supported. To fetch both the arabic text and translation,
-set the language option to en.
+If you want to fetch multiple verses, not necessarily in sequence, use an array to specify this.
+
+```
+quran.select({ chapter: 1, verse: [ 2, 4, 6 ]}, function(err,verses) {
+  if (!err) {
+    console.log(verses);
+  }
+});
+
+[ { chapter: 1,
+    verse: 2,
+    ar: 'ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ'
+  },
+  { 
+    chapter: 1, 
+    verse: 4, 
+    ar: 'مَٰلِكِ يَوْمِ ٱلدِّينِ' 
+  },
+  { chapter: 1,
+    verse: 6,
+    ar: 'ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ'
+  } 
+]
+
+```
+
+Currently, only arabic text and english, hindi and urdu translations are supported, to limit package size.
+
+To fetch both the arabic text and translation, set the language option to en.
 
 ```
 quran.select({ chapter: 1}, { offset: 1, limit: 3, language: 'en'}, function(err,verses) {
@@ -97,6 +124,36 @@ Output
 ]
 ```
 
+Want multiple translations at once? Use an array when specifying language
+
+```
+quran.select({ chapter: 1, verse: [ 2, 4, 6 ]}, 
+             { language: ['ur', 'en ] }, function(err,verses) {
+  if (!err) {
+    console.log(verses);
+  }
+});
+
+[ { chapter: 1,
+    verse: 2,
+    ar: 'ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ',
+    en: 'All praise is due to Allah, the Lord of the Worlds.',
+    ur: 'ساری تعریف اللہ کے لئے ہے جو عالمین کا پالنے والا ہے'
+  },
+  { chapter: 1,
+    verse: 4,
+    ar: 'مَٰلِكِ يَوْمِ ٱلدِّينِ',
+    en: 'Master of the Day of Judgment.',
+    ur: 'روزِقیامت کا مالک و مختار ہے' 
+  },
+  { chapter: 1,
+    verse: 6,
+    ar: 'ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ',
+    en: 'Keep us on the right path.',
+    ur: 'ہمیں سیدھے راستہ کی ہدایت فرماتا رہ' 
+  } 
+] 
+```
 
 You can also fetch meta data about a chapter 
 

@@ -1,5 +1,6 @@
 "use strict";
 
+var util = require('util');
 var model = require('./db');
 var qurandb = model('qurandb','r');
 
@@ -22,7 +23,11 @@ var quran = {
     var language; 
     var params = [];
     var query = 'select * from ar a ';
-    
+
+    var l = function(x) {
+      query += ' join ' + x + ' using(chapter,verse)'; 
+    };
+
     if (!callback && typeof (options) === 'function') {
       callback = options;
       options = {};
@@ -31,19 +36,27 @@ var quran = {
     language = options.language || 'ar';
 
     if (language != 'ar') {
-      query += ' left join ' + language + ' e on a.chapter = e.chapter and a.verse = e.verse';
+      if (util.isArray(language)) {
+        language.forEach(l);
+      } else {
+        l(language);
+      }
     }
 
     if (filters) {
       Object.keys(filters).forEach(function(k) { 
-        if (filters[k]) {
-          params.push(' a.' + k + '=' + filters[k]);
+        var f = filters[k];
+        if (f) {
+          if (util.isArray(f)) {
+            params.push(' a.' + k + ' in (' + f.join(',') + ')');
+          } else {
+            params.push(' a.' + k + '=' + f);
+          }
         }
       });
 
       query += ' where ' + params.join(' and ') ;
     }
-
     
     query += ' order by chapter,verse ';
 
@@ -53,6 +66,10 @@ var quran = {
           query += x + ' ' + options[x] + ' '; 
         }
       });
+    }
+
+    if (options.debug) {
+      console.log(query);
     }
     
     qurandb.all(query,function(err,res) {
@@ -78,6 +95,7 @@ var quran = {
       callback(err,res);
     });
   }
+
 };
 
 module.exports = quran;
