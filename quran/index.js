@@ -34,13 +34,18 @@ var quran = {
       query += ' left join ' + language + ' e on a.chapter = e.chapter and a.verse = e.verse';
     }
 
-    Object.keys(filters).forEach(function(k) { 
-      if (filters[k]) {
-        params.push(' a.' + k + '=' + filters[k]);
-      }
-    });
+    if (filters) {
+      Object.keys(filters).forEach(function(k) { 
+        if (filters[k]) {
+          params.push(' a.' + k + '=' + filters[k]);
+        }
+      });
 
-    query += ' where ' + params.join(' and ') + ' order by verse ';
+      query += ' where ' + params.join(' and ') ;
+    }
+
+    
+    query += ' order by chapter,verse ';
 
     if (options) {
       [ 'limit', 'offset' ].forEach(function(x) {
@@ -50,7 +55,12 @@ var quran = {
       });
     }
     
-    qurandb.all(query,callback);
+    qurandb.all(query,function(err,res) {
+      if (!err && res.length == 0) {
+        err = new Error('Selectors out of range');
+      }
+      callback(err,res);
+    });
   },
 
   chapter: function(chapterNum,callback) {
