@@ -1,0 +1,2371 @@
+/* ==|== HelpLess - LESS Helpers Library (http://m6tt.github.com/HelpLess) = */
+/* HelpLess
+*
+*  @What is it:
+*  HelpLess is a Helper Library for the brilliant LESS dynamic stylesheet language.
+*  Read more about LESS: http://lesscss.org/
+*  
+*  I have tried to make HelpLess as all-encompasing as possible with support for dynamic
+*  grids and page starter themes as well as all the css3 features I could think of.
+*  Unlike other libraries, HelpLess has an invisible footprint until you call a mixin 
+*  so if you import HelpLess but don't use it, it will not increase your compiled file size
+*  
+*  @thanks: 
+*  Eric Meyer for his html reset - http://meyerweb.com/eric/tools/css/reset/
+*  Necolas for his normalize - https://github.com/necolas/normalize.css
+*
+*  @How to use:
+*  Import helpless.x.x.x.less into your main style.less file. 
+*
+*  @Author: 
+*  m6tt: m6tt.com
+*
+*  @Reference:
+*  ------------------------------------------------------------------------------
+*    BASICS                     =>    syntax
+*  ------------------------------------------------------------------------------
+*    - .reset                   =>    #hl.reset() - call outside of element
+*    - .normalize               =>    #hl.normalize - call outside of element
+*    - .clearfix                =>    #hl.clearfix()
+*    - .centered                =>    #hl.centered(width)
+*    - .border                  =>    #hl.border(color)
+*    - .opacity                 =>    #hl.opacity(value)
+*    - .round-all-corners       =>    #hl.round-all-corners(radius)
+*    - .rounded-corners         =>    #hl.rounded-corners(topLeft, topRight, bottomRight, bottomLeft)
+*    - .transition              =>    #hl.transition(property, duration, ease, delay)
+*    - .drop-shadow             =>    #hl.drop-shadow(x, y, blur, color)
+*    - .inner-shadow            =>    #hl.inner-shadow(x, y, blur, color)
+*    - .text-shadow             =>    #hl.text-shadow(x, y, blur, color)
+*    - .background-gradient     =>    #hl.background-gradient(colorFrom, colorTo, fallbackColor, fallbackImageUrl)
+*    - .scale                   =>    #hl.scale(amount)
+*    - .scaleX                  =>    #hl.scaleX(amount)
+*    - .scaleY                  =>    #hl.scaleY(amount)
+*    - .rotate                  =>    #hl.rotate(degrees)
+*    - .rotateX                 =>    #hl.rotateX(degrees)
+*    - .rotateY                 =>    #hl.rotateY(degrees)
+*    - .skew                    =>    #hl.skew(angleX, angleY)
+*    - .skewX                   =>    #hl.skewX(angleX)
+*    - .skewY                   =>    #hl.skewY(angleY)
+*    - .translate               =>    #hl.translate(x, y)
+*    - .translateX              =>    #hl.translateX(x)
+*    - .translateY              =>    #hl.translateY(y)
+*    - .matrix                  =>    #hl.matrix(n, n, n, n, n, n)
+*
+*  ------------------------------------------------------------------------------
+*    GRID                       =>    syntax
+*  ------------------------------------------------------------------------------
+*    - .grid                    =>    namespace, do not call directly, use .make or one of the predefined grid makers
+*     - .make                   =>    #hl.grid.make(width, colNumber, gutterWidth)
+*     - .1200                   =>    #hl.grid.1200();
+*     - .1120                   =>    #hl.grid.1120();
+*     - .1040                   =>    #hl.grid.1040();
+*     - .960                    =>    #hl.grid.960();
+*     - .880                    =>    #hl.grid.880();
+*     - .800                    =>    #hl.grid.800();
+*     - .720                    =>    #hl.grid.720();
+*     - .640                    =>    #hl.grid.640();
+*     - .560                    =>    #hl.grid.560();
+*     - .480                    =>    #hl.grid.480();
+*     - .400                    =>    #hl.grid.400();
+*     - .320                    =>    #hl.grid.320();
+*     - .240                    =>    #hl.grid.240();
+*     - .row                    =>    #hl.grid.row();
+*     - .col                    =>    #hl.grid.col(colSpan);
+*
+*  ---------------------------------------
+*    TYPOGRAPHY
+*  ---------------------------------------
+*    - .typo                    =>    namespace, do not call directly
+*     - .serif                  =>    #hl.typo.serif(webfont-name-optional);
+*     - .sans                   =>    #hl.typo.sans(webfont-name-optional);
+*     - .columns                =>    #hl.typo.columns(count, gap)
+* 
+*  ---------------------------------------
+*    IMAGES
+*  ---------------------------------------
+*    - .img                     =>    namespace, do not call directly
+*     - .responsive             =>    #hl.img.responsive();
+*     - .framed                 =>    #hl.img.framed();
+
+*  ---------------------------------------
+*    USER INTERFACE
+*  ---------------------------------------
+*    - .ui                      =>    namespace, do not call directly
+*     - .themes                 =>    namespace, do not call directly
+*      - .light                 =>    #hl.ui.themes.light(); - call within <body> element
+*      - .dark                  =>    #hl.ui.themes.dark(); - call within <body> element
+*     - .list                   =>    namespace, do not call directly
+*      - .subtle                =>    #hl.ui.list.subtle(); - call within <ul> element
+*      - .horizontal            =>    #hl.ui.list.horizontal(); - call within <ul> element
+*
+*/
+#hl {
+  /************************************
+  * Meyer Reset
+  * http://meyerweb.com/eric/tools/css/reset/
+  ************************************/
+
+  /************************************
+  * Normalize by necolas
+  * https://github.com/necolas/normalize.css
+  ************************************/
+
+  /************************************
+  * Clearfix
+  *
+  * what?: Contains floats, for more info see h5bp.com/q.
+  *        Removes the need to add .clearfix as a class
+  *        to your elements.
+  *
+  ************************************/
+
+  /************************************
+  * Centered
+  *
+  * @what?: Center your object with an
+  *         automatic margin
+  *
+  * @params: width,      default = 960px
+  *
+  ************************************/
+
+  /************************************
+  * Border
+  *
+  * @what?: Add a 1px solid border
+  *        super quick.
+  *
+  * @params: colour,      default = #000
+  *
+  ************************************/
+
+  /************************************
+  * Opacity
+  *
+  * @what?: Add opacity to an HTML element that works
+  *         in all browsers including ie6+
+  *
+  * @params: value,      default = .5
+  *
+  ************************************/
+
+  /************************************
+  * Round all corners
+  *
+  * @what?: Rounds every corner equally
+  *
+  * @params: radius,      default = 5px
+  *
+  ************************************/
+
+  /************************************
+  * Rounded corners
+  *
+  * @what?: Round each corner individually
+  *
+  * @params: topLeft,     default = 5px
+  *          topRight,    default = 5px
+  *          bottomRight, default = 5px
+  *          bottomLeft,  default = 5px
+  *
+  ************************************/
+
+  /************************************
+  * Transition
+  *
+  * @what?: Defines a CSS3 transition
+  *
+  * @params: property,    default = all
+  *          duration,    default = .5s
+  *          ease,        default = linear
+  *          delay,       default = .0s
+  *
+  ************************************/
+
+  /************************************
+  * Drop shadow
+  *
+  * @what?: Adds an outer shadow to the
+  *         html element. To add a shadow
+  *         to text use #hl.text-shadow(...)
+  *
+  * @params: x,           default = 0px
+  *          y,           default = 1px
+  *          blur,        default = 1px
+  *          colour,      default = rgba(0, 0, 0, .6)
+  *
+  ************************************/
+
+  /************************************
+  * Inner shadow
+  *
+  * @what: Adds an inner shadow to the
+  *        html element.
+  *
+  * @params: x,           default = 0px
+  *          y,           default = 1px
+  *          blur,        default = 1px
+  *          colour,      default = rgba(0, 0, 0, .6)
+  *
+  ************************************/
+
+  /************************************
+  * Text shadow
+  *
+  * @what?: Adds an outer shadow to text
+  *
+  * @params: x,           default = 1px
+  *          y,           default = 1px
+  *          blur,        default = 1px
+  *          colour,      default = rgba(0, 0, 0, .6)
+  *
+  ************************************/
+
+  /************************************
+  * Background Gradient
+  *
+  * @what?: Adds a background gradient to
+  *         an HTML element
+  *
+  * @params: colourFrom,       default = #bbb
+  *          colourTo,         default = #f1f1f1
+  *          fallbackColour,   default = #f1f1f1
+  *          fallbackImageUrl, default = ''
+  *
+  ************************************/
+
+  /************************************
+  * Scale
+  *
+  * @what?: Defines a 2D scale transformation
+  *
+  * @params: amount,      default = 1
+  *
+  ************************************/
+
+  /************************************
+  * ScaleX
+  *
+  * @what?: Defines a scale transformation
+  *         by giving a value for the X-axis
+  *
+  * @params: x,           default = 1
+  *
+  ************************************/
+
+  /************************************
+  * ScaleY
+  *
+  * @what?: Defines a scale transformation
+  *         by giving a value for the Y-axis
+  *
+  * @params: y,           default = 1
+  *
+  ************************************/
+
+  /************************************
+  * Rotate
+  *
+  * @what?: Defines a 2D rotation, the angle
+  *         is specified in the parameter
+  *
+  * @params: degrees,     default = 90deg
+  *
+  ************************************/
+
+  /************************************
+  * RotateX
+  *
+  * @what?: Defines a 3D rotation along the X-axis
+  *
+  * @params: degrees,     default = 90deg
+  *
+  ************************************/
+
+  /************************************
+  * RotateY
+  *
+  * @what?: Defines a 3D rotation along the Y-axis
+  *
+  * @params: degrees,     default = 90deg
+  *
+  ************************************/
+
+  /************************************
+  * Skew
+  *
+  * @what?: Defines a 2D skew transformation
+  *         along the X- and the Y-axis
+  *
+  * @params: angleX,      default = 10deg
+  *          angleY,      default = 10deg
+  *
+  ************************************/
+
+  /************************************
+  * SkewX
+  *
+  * @what?: Defines a 2D skew transformation
+  *         along the X-axis
+  *
+  * @params: angleX,      default = 10deg
+  *
+  ************************************/
+
+  /************************************
+  * SkewY
+  *
+  * @what?: Defines a 2D skew transformation
+  *         along the Y-axis
+  *
+  * @params: angleY,      default = 10deg
+  *
+  ************************************/
+
+  /************************************
+  * Translate
+  *
+  * @what?: Defines a 2D translation
+  *
+  * @params: x,           default = 10px
+  *          y,           default = 10px
+  *
+  ************************************/
+
+  /************************************
+  * TranslateX
+  *
+  * @what?: Defines a translation, using
+  *         only the value for the X-axis
+  *
+  * @params: x,           default = 10px
+  *
+  ************************************/
+
+  /************************************
+  * TranslateY
+  *
+  * @what?: Defines a translation, using
+  *         only the value for the Y-axis
+  *
+  * @params: y,           default = 10px
+  *
+  ************************************/
+
+  /************************************
+  * Matrix
+  *
+  * @what?: Defines a 2D transformation,
+  *         using a matrix of six values
+  *
+  * @params: n1,          default = 0
+  *          n2,          default = 0
+  *          n3,          default = 0
+  *          n4,          default = 0
+  *          n5,          default = 0
+  *          n6,          default = 0
+  *
+  ************************************/
+
+  /************************************
+  * Grid
+  ************************************/
+
+  /***********************************
+  * TYPOGRAPHY
+  ***********************************/
+
+  /***********************************
+  * IMAGE
+  ***********************************/
+
+  /***********************************
+  * UI 
+  ***********************************/
+
+}
+#hl .grid {
+  /************************************
+    * Make
+    *
+    * @what?: Defines the base variables needed
+    *         for the HelpLess grid system.
+    *
+    * @params: @width,      default = 960
+    *          @colnum,     default = 16
+    *          @colgutter,  default = 10
+    *
+    ************************************/
+
+  /************************************
+    * 1200
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 1120
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 1040
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 960
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 880
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 800
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 720
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 640
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 560
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 480
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 400
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 320
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * 240
+    *
+    * @what?: Predefined grid maker
+    *
+    ************************************/
+
+  /************************************
+    * Row
+    *
+    * @what?: Defines an element as a row.
+    *         clears all clearfixes all columns
+    *         directly inside.
+    *
+    ************************************/
+
+  /************************************
+    * Col
+    *
+    * @what?: Defines an element as a column.
+    *         Sets the width depending on the
+    *         supplied arguments and the width
+    *         set in .grid()
+    *
+    * @params: @colSpan,  default = 1
+    *
+    ************************************/
+
+}
+#hl .typo {
+  /************************************
+    * Serif
+    *
+    * @what?: Quickly set your font family
+    *         as a serif set
+    *
+    * @params: @webfont,  default = none
+    *
+    ************************************/
+
+  /************************************
+    * Serif
+    *
+    * @what?: Quickly set your font family
+    *
+    * @params: @webfont,  default = none
+    *
+    ************************************/
+
+  /************************************
+    * Columns
+    *
+    * @what?: Sets CSS3 columns within
+    *         block of html text
+    *
+    * @params: count,       default = 1
+    *          gap,         default = 10px
+    *
+    ************************************/
+
+}
+#hl .img {
+  /************************************
+    * Responsive
+    *
+    * @what?: Set image max-width: 100%
+    *
+    ************************************/
+
+  /************************************
+    * Framed
+    *
+    * @what?: Add a quick 10px frame to your image
+    *
+    ************************************/
+
+}
+#hl .ui {
+  /***********************************
+     * PREDEFINED THEMES
+     ***********************************/
+
+  /***********************************
+     * LISTS
+     ***********************************/
+
+  /***********************************
+     * FORMS
+     ***********************************/
+
+}
+#hl .ui .themes {
+  /***********************************
+       * Theme: Light
+       *
+       * @what?: Quickly style the base elements
+       *         of your page
+       *
+       ***********************************/
+
+  /***********************************
+       * Theme: Dark
+       *
+       * @what?: Quickly style the base elements
+       *         of your page
+       *
+       ***********************************/
+
+}
+#hl .ui .list {
+  /***********************************
+       * Subtle
+       *
+       * @what?: Quickly removes the styling 
+       *         from a list
+       *
+       ***********************************/
+
+  /***********************************
+       * Horizontal
+       *
+       * @what?: Creates a horizontal list, 
+       *         useful for styling your site nav
+       *
+       ***********************************/
+
+}
+/* ==|== Import HTML5 ✰ Boilerplate LESS library =========================== */
+/*
+ * HTML5 ✰ Boilerplate - LESS
+ *
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ *
+ * Detailed information about this CSS: h5bp.com/css
+ *
+ * Converted to LESS by @m6tt: m6tt.com/less-boilerplate
+ */
+#blr {
+  /* ==|== normalize ======================================== */
+
+  /* ==|== non-semantic helper classes ======================================== */
+
+  /* ==|== print styles ======================================================= */
+
+}
+/*---------------------------------------------------
+    LESS Elements 0.6
+  ---------------------------------------------------
+    A set of useful LESS mixins by Dmitry Fadeyev
+    Special thanks for mixin suggestions to:
+      Kris Van Herzeele,
+      Benoit Adam,
+      Portenart Emile-Victor,
+      Ryan Faerman
+
+    More info at: http://lesselements.com
+-----------------------------------------------------*/
+/* Normalize */
+/* =============================================================================
+       HTML5 display definitions
+       ========================================================================== */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+  display: block;
+}
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+audio:not([controls]) {
+  display: none;
+}
+[hidden] {
+  display: none;
+}
+/* =============================================================================
+       Base
+       ========================================================================== */
+/*
+     * 1. Correct text resizing oddly in IE6/7 when body font-size is set using em units
+     * 2. Force vertical scrollbar in non-IE
+     * 3. Prevent iOS text size adjust on device orientation change, without disabling user zoom: h5bp.com/g
+     */
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.231;
+}
+body,
+button,
+input,
+select,
+textarea {
+  font-family: sans-serif;
+  color: #222;
+}
+/*
+     * Remove text-shadow in selection highlight: h5bp.com/i
+     * These selection declarations have to be separate
+     * Also: hot pink! (or customize the background color to match your design)
+     */
+::-moz-selection {
+  background: #0abbcd;
+  color: #555555;
+  text-shadow: none;
+}
+::selection {
+  background: #0abbcd;
+  color: #555555;
+  text-shadow: none;
+}
+/* =============================================================================
+       Links
+       ========================================================================== */
+a {
+  color: #0000ee;
+}
+a:visited {
+  color: #551a8b;
+}
+a:hover {
+  color: #0000ee;
+}
+a:focus {
+  outline: thin dotted;
+}
+/* Improve readability when focused and hovered in all browsers: h5bp.com/h */
+a:hover, a:active {
+  outline: 0;
+}
+/* =============================================================================
+       Typography
+       ========================================================================== */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b, strong {
+  font-weight: bold;
+}
+blockquote {
+  margin: 1em 40px;
+}
+dfn {
+  font-style: italic;
+}
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+/* Redeclare monospace font family: h5bp.com/j */
+pre,
+code,
+kbd,
+samp {
+  font-family: monospace, serif;
+  _font-family: 'courier new', monospace;
+  font-size: 1em;
+}
+/* Improve readability of pre-formatted text in all browsers */
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+q {
+  quotes: none;
+}
+q:before, q:after {
+  content: "";
+  content: none;
+}
+small {
+  font-size: 85%;
+}
+
+/* Position subscript and superscript content without affecting line-height: h5bp.com/k */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+/* =============================================================================
+       Lists
+       ========================================================================== */
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 40px;
+}
+dd {
+  margin: 0 0 0 40px;
+}
+nav ul, nav ol {
+  list-style: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+}
+/* =============================================================================
+       Embedded content
+       ========================================================================== */
+/*
+     * 1. Improve image quality when scaled in IE7: h5bp.com/d
+     * 2. Remove the gap between images and borders on image containers: h5bp.com/e
+     */
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+/*
+     * Correct overflow not hidden in IE9
+     */
+svg:not(:root) {
+  overflow: hidden;
+}
+/* =============================================================================
+       Figures
+       ========================================================================== */
+figure {
+  margin: 0;
+}
+/* =============================================================================
+       Forms
+       ========================================================================== */
+form {
+  margin: 0;
+}
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+/* Indicate that 'label' will shift focus to the associated form element */
+label {
+  cursor: pointer;
+}
+/*
+     * 1. Correct color not inheriting in IE6/7/8/9
+     * 2. Correct alignment displayed oddly in IE6/7
+     */
+legend {
+  border: 0;
+  *margin-left: -7px;
+  padding: 0;
+}
+/*
+     * 1. Correct font-size not inheriting in all browsers
+     * 2. Remove margins in FF3/4 S5 Chrome
+     * 3. Define consistent vertical alignment display in all browsers
+     */
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  margin: 0;
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+/*
+     * 1. Define line-height as normal to match FF3/4 (set using !important in the UA stylesheet)
+     * 2. Correct inner spacing displayed oddly in IE6/7
+     */
+button, input {
+  line-height: normal;
+  *overflow: visible;
+}
+/*
+     * Reintroduce inner spacing in 'table' to avoid overlap and whitespace issues in IE6/7
+     */
+table button, table input {
+  *overflow: auto;
+}
+/*
+     * 1. Display hand cursor for clickable form elements
+     * 2. Allow styling of clickable form elements in iOS
+     */
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+/*
+     * Consistent box sizing and appearance
+     */
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+/*
+     * Remove inner padding and border in FF3/4: h5bp.com/l
+     */
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/*
+     * 1. Remove default vertical scrollbar in IE6/7/8/9
+     * 2. Allow only vertical resizing
+     */
+textarea {
+  overflow: auto;
+  vertical-align: top;
+  resize: vertical;
+}
+/* Colors for form validity */
+/* =============================================================================
+       Tables
+       ========================================================================== */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td {
+  vertical-align: top;
+  padding: 15px;
+}
+/* ==|== primary styles =====================================================
+   Author: Rahul Vagadiya (theunexpected1)
+  ========================================================================== */
+/* my reset */
+.flipMe {
+  -moz-transform: scalex(-1);
+  -o-transform: scalex(-1);
+  -webkit-transform: scalex(-1);
+  transform: scalex(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+/*
+use predefined colors from above, or you can even use urs like this:
+@themeColor: #f0f0f0;
+*/
+/*general css */
+::selection {
+  background-color: #0076a3;
+  color: #ffffff;
+}
+::-moz-selection {
+  background-color: #0076a3;
+  color: #ffffff;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li,
+p {
+  margin: 0;
+  padding: 0;
+}
+ul, li {
+  list-style: none;
+}
+a,
+a:active,
+a:visited,
+a:focus,
+a:hover {
+  text-decoration: none;
+  color: #222222;
+  /*color: @textColor;*/
+
+}
+body, .page, .ui-overlay-c {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  overflow: hidden;
+  margin: 0 auto;
+  /*
+   background: @bgColorReverse;
+   color: @textColorReverse;
+   */
+
+  background: #f8f8f8 !important;
+}
+h1 {
+  font-size: 27.5px;
+  font-weight: 200;
+  margin-bottom: 10px;
+  text-align: left;
+}
+h1 a {
+  font-size: 27.5px;
+  font-weight: 200;
+}
+h1 a.back img {
+  width: 23px;
+}
+
+a.next img {
+  width: 23px;
+}
+
+a.prev img {
+  width: 23px;
+}
+
+h2 {
+  background-color: #252525;
+  line-height: 30px;
+  font-size: 19px;
+  font-weight: 200;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  /*
+   padding-left: 13.5%;
+   margin-left: -13.5%;
+   display: inline;
+   */
+
+}
+span.h2 {
+  position: relative;
+  display: block;
+  line-height: 30px;
+  font-size: 19px;
+  color: #ffffff;
+  font-weight: 200;
+  margin-bottom: 14px;
+}
+h3 {
+  font-size: 18px;
+  font-weight: 200;
+  max-height: 43px;
+  padding-bottom: 4px;
+  overflow: hidden;
+}
+h4 {
+  color: #0076a3;
+  font-size: 17px;
+  font-weight: 200;
+  margin-bottom: 14px;
+}
+h4 a {
+  color: #0076a3 !important;
+}
+p {
+  margin-bottom: 14px;
+}
+.ui-loader {
+  opacity: 0.4 !important;
+  filter: alpha(opacity=40) !important;
+}
+.ui-loader .ui-icon {
+  background-color: transparent !important;
+}
+#twitter_update_list li {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin: 0 0 10px;
+  padding: 7px;
+  background: #fff;
+}
+#twitter_update_list li span {
+  color: #222222;
+}
+#twitter_update_list li span a {
+  display: inline !important;
+  margin: 0;
+  float: none;
+}
+#twitter_update_list li a {
+  color: #0076a3;
+  display: block;
+  margin-top: 5px;
+  transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  /* Firefox 4 */
+
+  -webkit-transition: all 0.2s;
+  /* Safari and Chrome */
+
+  -o-transition: color all 0.2s;
+  /* Opera */
+
+}
+#twitter_update_list li a:hover {
+  color: #005170;
+}
+.ui-mobile, .ui-mobile .ui-page {
+  min-height: 0;
+}
+.padpage {
+  padding-left: 10.5%;
+  padding-right: 10.5%;
+}
+.padpage.padtop {
+  padding-top: 10.5%;
+}
+.padpage.padbottom {
+  padding-bottom: 10.5%;
+}
+.successMessage {
+    display: none;
+    background: lighten(@themeColor, 15%);
+    color: green;
+    padding: 5px;
+    margin-bottom: 20px;
+    p{
+        margin: 0;
+    }
+}
+::-webkit-input-placeholder {
+  color: #57d0ff;
+}
+input:-moz-placeholder {
+  color: #57d0ff;
+}
+.invalid {
+  background-color: #fff !important;
+  border-color: #0076a3 !important;
+}
+.textbox, .textarea {
+  font-size: 12px;
+  line-height: 26px;
+  background: #ffffff;
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: #DADADA;
+  color: #0076a3;
+  width: 100%;
+  padding: 0 5px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.button {
+  background: #0076a3;
+  padding: 0 10px;
+  line-height: 26px;
+  width: 100%;
+  font-size: 12px;
+  border: 0;
+  color: #ffffff;
+  font-weight: 200;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  /* Firefox 4 */
+
+  -webkit-transition: all 0.4s;
+  /* Safari and Chrome */
+
+  -o-transition: color all 0.4s;
+  /* Opera */
+
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.button.inline {
+  width: auto;
+}
+.button:hover {
+  background: #009bd6;
+}
+form li {
+  margin-bottom: 10px;
+}
+.innerPage {
+  background: #f8f8f8;
+  color: #222222;
+  text-align: justify;
+  font-weight: 200;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  min-height: 100% !important;
+  /*end footer*/
+
+}
+.innerPage .topGrahic {
+  position: absolute;
+  width: 60%;
+  height: 4px;
+  background: #0076a3;
+  top: 0;
+  left: 0;
+}
+.innerPage .menuButton {
+  position: absolute;
+  display: block;
+  right: 15px;
+  top: 15px;
+}
+
+.innerPage .menuButton1 {
+  right: 60px;
+  top: 15px;
+}
+
+.innerPage .menuButton:hover img {
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+}
+.innerPage .menuButton img {
+  transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  /* Firefox 4 */
+
+  -webkit-transition: all 0.2s;
+  /* Safari and Chrome */
+
+  -o-transition: color all 0.2s;
+  /* Opera */
+
+  width: 15px;
+}
+.innerPage .flexslider {
+  max-height: 200px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 0 0;
+  -webkit-box-shadow: 0 0 0 0;
+  -moz-box-shadow: 0 0 0 0;
+  -o-box-shadow: 0 0 0 0;
+}
+.innerPage .flexslider .flex-viewport {
+  overflow: visible !important;
+}
+.innerPage .flexslider li {
+  /*margin: 0 0 0 1%;*/
+
+  text-align: left;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.innerPage .flexslider img {
+  width: 100%;
+}
+.innerPage .footer {
+  margin-top: 25px;
+  /*end social*/
+
+}
+
+.arabic {
+  font-family: 'Scheherazade', serif;
+  font-size: 28px;
+  direction: rtl;
+  background-color: #FFFFF2;
+  padding: 5px;
+  text-align: justify;
+  word-spacing: 5px;
+}
+
+.doublespaced {
+  line-height: 2.35em;
+}
+
+.urdu {
+  direction: rtl;
+  font-size: 18px;
+}
+
+.ur {
+  direction: rtl;
+  font-size: 18px;
+  word-spacing: 5px;
+}
+
+.english {
+}
+
+.hindi {
+}
+
+.innerPage .footer .social {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  /*end a*/
+
+}
+.innerPage .footer .social a {
+  display: block;
+  background-color: #0076a3;
+  margin-right: 5px;
+  float: left;
+}
+.innerPage .footer .social a:last-child {
+  margin-right: 0;
+}
+.innerPage .footer .social a img {
+  width: 24px;
+}
+.innerPage .footer .copyright {
+  color: #0076a3;
+  font-size: 12px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  width: 60%;
+  line-height: 24px;
+}
+.blog {
+  margin-top: 20px;
+  /*end head*/
+
+}
+.blog .head {
+  /*end image*/
+
+  /*end date*/
+
+}
+.blog .head .image {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -0-box-sizing: border-box;
+  width: 25%;
+  margin-right: 4%;
+  text-align: left;
+  display: block;
+  max-height: 150px;
+}
+.blog .head .image.icon {
+  text-align: center;
+  background: #0076a3;
+  padding: 2%;
+}
+.blog .head .image img {
+  max-width: 100%;
+}
+.blog .head .date {
+  /*position: absolute;*/
+
+  /*bottom: 0;*/
+
+}
+.blogDetail {
+  /*end head*/
+
+}
+.blogDetail .head {
+  /*end image*/
+
+}
+.blogDetail .head .image {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -0-box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+  display: block;
+  max-height: 150px;
+}
+.blogDetail .head .image.icon {
+  padding: 2%;
+  background: #0076a3;
+}
+.blogDetail .head .image img {
+  width: 100%;
+}
+.blogPost {
+  margin-bottom: 20px;
+  padding-bottom: 4%;
+  /*comments list*/
+
+}
+.blogPost .head {
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 2%;
+  /* comment bubble */
+
+}
+.blogPost .head .title {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -0-box-sizing: border-box;
+  width: 71%;
+}
+.blogPost .head .title h3 {
+  font-size: 18px;
+  font-weight: 200;
+  max-height: 43px;
+  padding-bottom: 4px;
+  overflow: hidden;
+}
+.blogPost .head .date {
+  font-size: 85%;
+  color: #0076a3;
+  margin-bottom: 14px;
+}
+.blogPost .head .comments {
+  position: relative;
+  width: 28px;
+  height: 25px;
+}
+.blogPost .head .comments img {
+  position: absolute;
+  width: 28px;
+  z-index: 1;
+}
+.blogPost .head .comments .count {
+  text-align: center;
+  display: block;
+  width: 23px;
+  left: 4px;
+  position: absolute;
+  z-index: 2;
+  font-size: 15px;
+  line-height: 25px;
+  font-weight: 200;
+  color: #0076a3;
+  border-bottom: 1px solid #0076a3;
+}
+.blogPost .description {
+  margin-bottom: 10px;
+}
+.blogPost .foot {
+  font-size: 85%;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #0076a3;
+}
+.blogPost .foot .author {
+  color: #0076a3;
+}
+.blogPost .foot .category {
+  background: #0076a3;
+  color: #ffffff;
+  padding: 2px;
+}
+.blogPost .comments-list {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #0076a3;
+  /*end ul*/
+
+}
+.blogPost .comments-list ul {
+  margin-bottom: 30px;
+}
+.blogPost .comments-list ul li {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #0076a3;
+}
+.blogPost .comments-list ul li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.blogPost .comments-list ul li .author {
+  font-size: 14px;
+  font-weight: 400;
+}
+.blogPost .comments-list ul li .date {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.blogPost .comments-list ul li .comment {
+  font-size: 13px;
+  font-weight: 200;
+  margin-top: 5px;
+}
+.blogPost .postComment {
+  padding-bottom: 10px;
+  /*border-bottom: 1px solid @themeColor;*/
+
+}
+/*end blog post*/
+.pagination {
+  margin: 0 0 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #0076a3;
+}
+.pagination .page-description {
+  color: #0076a3;
+  line-height: 21px;
+}
+.pagination ul li {
+  float: left;
+  margin-right: 14px;
+}
+.pagination ul li:last-child {
+  margin-right: 0;
+}
+.pagination ul li a {
+  background: #0076a3;
+  display: block;
+  width: 21px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 200;
+  text-align: center;
+  line-height: 21px;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  /* Firefox 4 */
+
+  -webkit-transition: all 0.4s;
+  /* Safari and Chrome */
+
+  -o-transition: color all 0.4s;
+  /* Opera */
+
+}
+.pagination ul li a:hover {
+  background: #009bd6;
+}
+.pagination ul li a.next {
+  /*background-color: transparent;*/
+
+}
+.pagination ul li a.next img {
+  height: 16px;
+  width: auto;
+}
+.pagination ul li a.active {
+  background-color: #005170;
+}
+.positions li {
+  margin-bottom: 35px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #0076a3;
+}
+.positions li li {
+  border: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  padding: 5px 0 0 0;
+  list-style-position: inside;
+  margin: 0;
+  list-style-type: square;
+}
+.positions li .title {
+  color: #0076a3;
+  font-size: 15px;
+  font-weight: 400;
+  padding-bottom: 10px;
+}
+.positions li .description {
+  padding-bottom: 10px;
+}
+.positions li .apply, .positions li .recommend {
+  transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  /* Firefox 4 */
+
+  -webkit-transition: all 0.2s;
+  /* Safari and Chrome */
+
+  -o-transition: color all 0.2s;
+  /* Opera */
+
+}
+.positions li .apply:hover, .positions li .recommend:hover {
+  background: #0088bc;
+}
+.positions li .apply {
+  background: #0076a3;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 2px 5px;
+  margin: 5px 0;
+}
+.positions li .recommend {
+  background: #0076a3;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 2px 5px;
+  font-weight: 400;
+  margin: 5px 0;
+}
+.videosSlide iframe {
+  width: 100%;
+}
+.videosGrid {
+  padding: 0 2%;
+}
+.videosGrid li {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  width: 47%;
+  float: left;
+  margin-right: 6%;
+  margin-bottom: 6%;
+}
+.videosGrid li iframe {
+  width: 100%;
+  height: 82px;
+}
+.videosGrid li:nth-child(2n+2) {
+  margin-right: 0;
+}
+.videosList {
+  padding: 0 2% 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #0076a3;
+}
+.videosList li {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  width: 100%;
+  float: left;
+  margin-bottom: 6%;
+}
+.videosList li iframe {
+  width: 100%;
+  height: 164px;
+}
+.projects, .clients {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  /*border-bottom: 1px solid @themeColor;*/
+
+}
+.list {
+  margin: 0 0 0 17px;
+}
+.list li {
+  list-style-type: disc;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+.ui-li-has-thumb .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li-has-thumb {
+  min-height: 63px;
+}
+.columnContainer .column {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  width: 100%;
+  padding: 0 5% 0 0;
+  font-size: 13px;
+}
+.columnContainer.column-1 .column {
+  text-align: justify;
+}
+.columnContainer.column-2 .column {
+  width: 50%;
+  float: left;
+}
+.columnContainer.column-3 .column {
+  width: 33%;
+  float: left;
+}
+.services {
+  /*end li*/
+
+}
+.services li {
+  margin-bottom: 8px;
+  /*end .image*/
+
+}
+.services li a.image, .services li a.text {
+  float: left;
+  display: block;
+  line-height: 64px;
+}
+.services li a.image {
+  width: 64px;
+  height: 64px;
+  background: #0076a3;
+  text-align: center;
+  margin-right: 10px;
+}
+.services li a.image img {
+  width: 64px;
+}
+.services.serviceDetail a.image {
+  margin-bottom: 14px;
+}
+.cutContainer {
+  position: relative;
+  /*padding: 25px;
+   border: 1px solid @themeColor;
+   margin-bottom: 25px;
+   */
+
+  margin-bottom: 40px;
+  margin-top: 20px;
+  /*.box-shadow(2px 2px 2px #bbb);*/
+
+}
+.cutContainer.noBorder {
+  border: 0 !important;
+}
+.cutContainer.noBorder .cutTop {
+  left: -12px;
+  top: -12px;
+}
+.cutContainer.noBorder .cutBottom {
+  right: -12px;
+  bottom: -12px;
+}
+.cutContainer.noPadding {
+  padding: 0 !important;
+}
+.cutContainer.noMargin {
+  margin-bottom: 0 !important;
+}
+.cutContainer.moreUpperMargin {
+  margin-top: 60px;
+}
+.cutContainer .cutTop, .cutContainer .cutBottom {
+  display: none;
+  background-repeat: no-repeat;
+  background-size: 18px;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  background-color: #f8f8f8;
+  background-color: #F8F8F8;
+  background-position: 0 0;
+  -webkit-transform: rotate(45deg);
+  z-index: 2;
+}
+.cutContainer .cutTop {
+  left: -15px;
+  top: -15px;
+}
+.cutContainer .cutBottom {
+  right: -15px;
+  bottom: -15px;
+}
+.cutContainer .link {
+  color: #0076a3;
+  padding-left: 5px;
+}
+.cutContainer .block {
+  margin-bottom: 5px;
+}
+.cutContainer .mapPin {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  width: 30px;
+  margin-right: 10px;
+}
+.cutContainer .text {
+  font-size: 16px;
+  font-weight: 200;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+.cutContainer .map {
+  height: 150px;
+  transition: height 0.7s;
+  -moz-transition: height 0.7s;
+  /* Firefox 4 */
+
+  -webkit-transition: height 0.7s;
+  /* Safari and Chrome */
+
+  -o-transition: color height 0.7s;
+  /* Opera */
+
+}
+.cutContainer .map.large {
+  height: 275px;
+}
+.toggleMapHeight {
+  font-size: 40px;
+  color: #0076a3 !important;
+  margin-bottom: 25px;
+  display: block;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  left: 50%;
+  margin-left: -25px;
+  /*display: block;*/
+
+  text-align: center;
+  transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  /* Firefox 4 */
+
+  -webkit-transition: all 0.4s ease-in-out;
+  /* Safari and Chrome */
+
+  -o-transition: color all 0.4s ease-in-out;
+  /* Opera */
+
+}
+.toggleMapHeight:hover {
+  color: #0076a3 !important;
+}
+.toggleMapHeight.opened {
+  transform: rotate(405deg);
+  -webkit-transform: rotate(405deg);
+  -moz-transform: rotate(405deg);
+}
+.toggleMapHeight.notransform {
+  transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+}
+#menuPage {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0 !important;
+  margin-left: 0 !important;
+  background: #000000 !important;
+  color: #ffffff;
+}
+#galleryScroller {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0 !important;
+  margin-left: 0 !important;
+}
+#galleryScroller .menu li ul .square {
+  height: 28% !important;
+  overflow: hidden;
+}
+#galleryScroller .menu li ul .square a.box {
+  background: transparent !important;
+}
+#galleryScroller .menu li ul .square img {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  position: static;
+}
+.company {
+  float: left;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.company.on {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.company img {
+  height: 98.5%;
+  /*
+         min-height: 225px;
+         min-width: 150px;
+         */
+
+}
+
+#coverVerse {
+  position: absolute;
+  font-family: 'Scheherazade', serif;
+  font-size: 2em;
+  margin-top: 15%;
+  margin-left: 5%;
+}
+
+
+.scroller {
+  float: left;
+  height: 90%;
+  margin: 5%;
+  position: relative;
+}
+.menu {
+  height: 100%;
+  /*overflow: hidden;*/
+
+  position: absolute;
+  padding-right: 8%;
+  padding-left: 5%;
+  /*margin-left: 275px;*/
+
+  transition-property: opacity, padding;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  -moz-transition-property: opacity, padding;
+  -moz-transition-duration: 0.2s;
+  -moz-transition-timing-function: ease-out;
+  -webkit-transition-property: opacity, padding;
+  -webkit-transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-out;
+  -o-transition-property: opacity, padding;
+  -o-transition-duration: 0.2s;
+  -o-transition-timing-function: ease-out;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  /*
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      */
+
+  transform-origin: left center;
+  -webkit-transform-origin: left center;
+  -moz-transform-origin: left center;
+  /*-webkit-transform: skewY(3deg) !important;*/
+
+  /*.transitioner(all 2s ease-in-out);*/
+
+  /*end li*/
+
+}
+.menu.on {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  padding-left: 0;
+}
+.menu li {
+  height: 100%;
+  float: left;
+  /*end ul*/
+
+}
+.menu li:last-child ul {
+  padding-right: 0 !important;
+}
+.menu li ul {
+  height: 100%;
+  /*end square li*/
+
+}
+.menu li ul .square {
+  float: none;
+  height: 31%;
+  margin: 0 0 9% 0;
+  position: relative;
+  min-height: 70px;
+}
+.menu li ul .square a.box {
+  display: block;
+  width: 100%;
+  background: #0076a3;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  /* Firefox 4 */
+
+  -webkit-transition: all 0.4s;
+  /* Safari and Chrome */
+
+  -o-transition: color all 0.4s;
+  /* Opera */
+
+  height: 100%;
+}
+.menu li ul .square a.box:hover {
+  background: #0088bc;
+}
+.menu li ul .square .text {
+  color: white;
+  position: absolute;
+  bottom: 5px;
+  font-size: 12px;
+  font-weight: 200;
+  left: 5px;
+  text-shadow: none;
+}
+.menu li ul .square img {
+  width: 50%;
+  position: absolute;
+  top: 50%;
+  margin-top: -25%;
+  left: 50%;
+  margin-left: -25%;
+  display: none;
+}
+.menu li ul .square img.on {
+  display: block;
+}
+/*end menu*/
+/*end menuPage*/
+/* ==|== media queries ====================================================== */
+@media only screen and (max-height: 280px) {
+  .menu li ul .square {
+    min-height: 0 !important;
+  }
+  .menu li ul .square img {
+    top: 40% !important;
+  }
+  .menu li ul .square span.text {
+    font-size: 70%;
+  }
+  #coverVerse {
+    font-size: 1em;
+  }
+}
+/* Screen width <= 320px */
+@media only screen and (max-width: 320px) {
+}
+/* Screen width > 320px */
+@media only screen and (min-width: 321px) and (max-width: 480px) {
+  
+}
+/* Screen width > 480px */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .innerPage {
+    /*padding: 5%;*/
+  
+  }
+  .innerPage .flexslider {
+    max-height: 320px;
+  }
+  .menuButton img {
+    width: 22px !important;
+  }
+  .videosGrid {
+    padding: 0 2%;
+  }
+  .videosGrid li iframe {
+    width: 100%;
+    height: 142px;
+  }
+}
+/* Screen width > 768px */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .innerPage {
+    /*padding: 5%;*/
+  
+  }
+  .innerPage .flexslider {
+    max-height: 320px;
+  }
+  .menuButton img {
+    width: 25px !important;
+  }
+  .scroller {
+    margin: 35px !important;
+  }
+  .videosGrid {
+    padding: 0 2%;
+  }
+  .videosGrid li iframe {
+    width: 100%;
+    height: 242px;
+  }
+}
+/* Screen width > 1024px */
+@media only screen and (min-width: 1023px) and (max-width: 1280px) {
+  body,
+  .page,
+  .ui-overlay-c,
+  .ui-mobile [data-role="page"],
+  .ui-mobile [data-role="dialog"],
+  .ui-page {
+    width: 1024px;
+    left: 50%;
+    margin-left: -512px;
+    font-size: 16px;
+  }
+  .innerPage .topGrahic {
+    height: 8px;
+  }
+  .scroller {
+    margin: 45px !important;
+  }
+  h1 {
+    font-size: 31.5px;
+  }
+  h1 a {
+    font-size: 31.5px;
+  }
+  .innerPage {
+    /*padding: 5%;*/
+  
+  }
+  .innerPage .flexslider {
+    max-height: 380px;
+  }
+  .menuButton img {
+    width: 30px !important;
+  }
+  .padpage {
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+  }
+  .padpage.padtop {
+    padding-top: 2.5%;
+  }
+  .padpage.padbottom {
+    padding-bottom: 2.5%;
+  }
+  .videosGrid {
+    padding: 0 2%;
+  }
+  .videosGrid li iframe {
+    width: 100%;
+    height: 282px;
+  }
+}
+/* Screen width > 1280px */
+@media only screen and (min-width: 1281px) {
+  body,
+  .page,
+  .ui-overlay-c,
+  .ui-mobile [data-role="page"],
+  .ui-mobile [data-role="dialog"],
+  .ui-page {
+    width: 1024px;
+    left: 50%;
+    margin-left: -512px;
+    font-size: 16px;
+  }
+  .innerPage .topGrahic {
+    height: 8px;
+  }
+  .scroller {
+    margin: 55px !important;
+  }
+  h1 {
+    font-size: 31.5px;
+  }
+  h1 a {
+    font-size: 31.5px;
+  }
+  .innerPage {
+    /*padding: 5%;*/
+  
+  }
+  .innerPage .flexslider {
+    max-height: 380px;
+  }
+  .menuButton img {
+    width: 30px !important;
+  }
+  .padpage {
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+  }
+  .padpage.padtop {
+    padding-top: 2.5%;
+  }
+  .padpage.padbottom {
+    padding-bottom: 2.5%;
+  }
+  .videosGrid {
+    padding: 0 2%;
+  }
+  .videosGrid li iframe {
+    width: 100%;
+    height: 282px;
+  }
+}
+/* ==|== endos ==============================================================
+   Please define your styles before this section.
+   ========================================================================== */
+/* For image replacement */
+.ir {
+  display: block;
+  border: 0;
+  text-indent: -999em;
+  overflow: hidden;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  text-align: left;
+  direction: ltr;
+}
+.ir br {
+  display: none;
+}
+/* Hide from both screenreaders and browsers: h5bp.com/u */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+/* Hide only visually, but have it available for screenreaders: h5bp.com/v */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p */
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible {
+  visibility: hidden;
+}
+/* Contain floats: h5bp.com/q */
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+.clearfix {
+  *zoom: 1;
+}
+
+div.ps-toolbar-fb
+{
+  cursor: pointer;
+  display: table-cell;
+  padding-top: 12px;
+  background-repeat: no-repeat;
+  background-image: url(/img/facebook.png);
+  background-position: center;
+}
+
+div.calendar
+{
+  position: absolute;
+  width: 54px; height: 60px; font-size: 0.8em; background: #eee; border: 1px solid;
+  -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; 
+
+}
+
+.calendar > span { display: block; }
+.calendar > .month { text-align: right; padding: 2px 5px 2px 0;
+  -webkit-border-top-left-radius: 5px; -moz-border-radius-topleft: 5px;
+  -webkit-border-top-right-radius: 5px; -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px; border-top-right-radius: 5px;
+  background: #6086a6; color: #fff; font-weight: bold;
+  text-shadow: 0 1px #000;
+  background: -webkit-gradient(linear, left top, left bottom, from(#acc0d1), to(#6086a6));
+  background: -moz-linear-gradient(top, #acc0d1, #6086a6);
+ }
+.calendar > .day { text-align: center; font-weight: bold; font-size: 2.3em; 
+  color: black;
+  -webkit-border-bottom-left-radius:  5px; -moz-border-radius-bottomleft:      5px;
+  -webkit-border-bottom-right-radius: 5px; -moz-border-radius-bottomright:     5px;
+  background: #fff; 
+  text-shadow: 0 1px #fff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#405b72), to(#e6e6e6), color-stop(.08,#f9f9f9));
+  background: -moz-linear-gradient(top, #f9f9f9, #e6e6e6);
+}
+
+.language {
+  color: blue;
+}
+
+.highlight {
+  background-color: #C4ECBD;
+}
+
+.ui-listview-filter-inset {
+  margin-top: 0;
+}
+
+#toTop { position: fixed; bottom: 50px; left: 0px; width: 38px; padding: 4px; background-color: #CCC; cursor: pointer; display: none; }
+
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+  /* Black prints faster: h5bp.com/s */
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  .noprint {
+    display: none;
+  }
+  /*
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+  */
+  /* Don't show links for images, or javascript/internal links */
+  pre, blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  thead {
+    display: table-header-group;
+  }
+  /* h5bp.com/t */
+  tr, img {
+    page-break-inside: avoid;
+  }
+  img {
+    max-width: 100% !important;
+  }
+  @page  {
+    margin: 0.5cm;
+  }
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}

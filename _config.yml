@@ -1,0 +1,10 @@
+name: "duas.mobi"
+description: ""
+
+url: "http://duas.mobi"
+
+paginate: 10
+
+markdown: redcarpet
+permalink: pretty
+pygments: true
