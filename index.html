@@ -3,18 +3,29 @@ layout: default
 title: Home
 ---
 <div id="quranOffline" data-role="page" class="page innerPage">
-  <div class="topGrahic"></div><a href="#" data-rel="back" class="menuButton"><img src="img/menu-button.png" alt="Home"></a>
+  <div class="topGrahic"></div>
   <div class="padpage padtop">
-    <h1> <a href="/" class="back ui-link"><img src="img/icon-back.png" alt="Back">Offline Quran Browser</a></h1>
+    <h1>Quran Browser</h1>
+    <br/><br/>
+    <a href="https://github.com/qzaidi/quran">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" 
+      src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
+    </a>
+    <p>
+    This is an experimental project that uses HTML5 WebSQL APIs for locally storing Al Quran, aiming to provide an interface to view and
+    search the holy book. Firefox is not supported at the moment. We will attempt to load the Quran text automatically on first view, after
+    which you will be able to access it offline.
+    </p>
+    <p> Quran text and translations (coming soon) are courtsey tanzil.net. </p>
     <div class="clients">
       <ul id="chapterlist" data-role="listview"></ul>
     </div>
   </div>
 </div>
 <div id="offquran" data-role="page" class="page innerPage">
-  <div class="topGrahic"></div><a href="/" class="menuButton"><img src="/img/menu-button.png" alt="Menu"></a>
+  <div class="topGrahic"></div><a href="/" class="menuButton"><img src="img/menu-button.png" alt="Menu"></a>
   <div class="padpage padtop">
-    <h1> <a href="/offline" data-rel="back" class="back ui-link"><img src="/img/icon-back.png" alt="Back"><span id="header">Loading ...</span></a></h1>
+    <h1> <a href="/offline" data-rel="back" class="back ui-link"><img src="img/icon-back.png" alt="Back"><span id="header">Loading ...</span></a></h1>
     <div id="toTop">↑ Top</div>
     <div class="surahHeaderFrame">
       <div class="surahHeaderText">سورة <span id="name"></span></div>

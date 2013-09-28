@@ -49,9 +49,10 @@ function init() {
   }());
 
   function errCallback(tx,err){
-    console.log("Oh noes! There haz bin a datamabase error!");
+    console.log("Oh noes! There haz bin a database error!");
     console.log(err);
   }
+
 
   var db = openDatabase("quran", "1.0", "Offline Quran DB", 32678);
 
@@ -63,62 +64,70 @@ function init() {
 
   db.transaction(function(transaction) {
     transaction.executeSql("CREATE TABLE IF NOT EXISTS quran (" +
-    "chapter INTEGER , verse INTEGER, ar TEXT) ;");
+      "chapter INTEGER , verse INTEGER, ar TEXT) ;");
   });
 
-  var saveMeta = function(data, successCallback){
-    db.transaction(function(transaction){
-      data.forEach(function(x) {
-        transaction.executeSql(("INSERT INTO metadata VALUES (?,?,?,?,?,?,?,?,?);"), 
-        x, function(transaction, results){successCallback(results);}, errCallback);
-      });
-    });
-  };
+ var saveMeta = function(data, successCallback){
+   db.transaction(function(transaction){
+     data.forEach(function(x) {
+       transaction.executeSql(("INSERT INTO metadata VALUES (?,?,?,?,?,?,?,?,?);"), 
+       x, function(tx, results) { successCallback(results);}, errCallback);
+     });
+   });
+ };
 
-  var saveQuran = function(data,successCallback){
-    
+ var loadVerse = function(tx,line,cb) {
+   var x = line.split('|');
+   tx.executeSql("INSERT INTO quran VALUES (?,?,?);",x, 
+   function(tx,res) { cb(null); },
+   function(tx,err) { cb(err,null); });
+ };
 
-    db.transaction(function(transaction){
-      function loadVerse(line) {
-        var x = line.split(',');
-        transaction.executeSql(("INSERT INTO quran VALUES (?,?,?);"), 
-        x, function(transaction, results){ 
-          if (data == '') {
+
+ var saveQuran = function(data,successCallback){
+   var data = data.split('\n').map(function(line) { return line.split('|'); });
+   db.transaction(function(transaction){
+     data.forEach(function(x,idx) {
+      transaction.executeSql(("INSERT INTO quran VALUES (?,?,?);"), 
+        x, function(transaction, results) { 
+          if (idx == data.length - 1) {
             successCallback(results);
           }
         }, errCallback);
-      }
-
-      var pos = 0;
-      do {
-        pos = data.indexOf('\n');
-        loadVerse(data.substr(0,pos),data);
-        data = data.substr(pos+1);
-      } while(pos != -1);
-    });
-
-  };
-
- function doLoad() {
-   $.mobile.showPageLoadingMsg('e','Loading Quran Metadata ...');
-   var data = QuranData.Sura.slice(1,115);
-   data.forEach(function(x,id) {
-     var chapter = id + 1;
-     x.push(chapter);
+     });
    });
-   saveMeta(data,function(ins) {
-     $.mobile.showPageLoadingMsg('e','Loaded Quran Metadata.');
-   });
+ };
+
+ function doLoad(loadMeta) {
+
+   if (loadMeta) {
+     $.mobile.showPageLoadingMsg('e','Loading Quran Metadata ...');
+
+     var data = QuranData.Sura.slice(1,115);
+
+     data.forEach(function(x,id) {
+       var chapter = id + 1;
+       x.push(chapter);
+     });
+
+
+     saveMeta(data,function(ins) { $.mobile.showPageLoadingMsg('e','Loaded Quran Metadata.'); });
+   }
 
    $.mobile.showPageLoadingMsg('e','Downloading Quran Text ..');
-   // fetch the text 
-   $.get('/contrib/quran-uthmani.txt',function(res) {
-     $.mobile.showPageLoadingMsg('e','Saving Quran Text for offline viewing ..');
-     saveQuran(res, function(ins) {
-       $.mobile.showPageLoadingMsg('e','Completed');
-       $.mobile.hidePageLoadingMsg();
-       showTOC();
-     });
+   $.ajax({
+     url: 'contrib/quran-uthmani.txt',
+     success: function(res) {
+       $.mobile.showPageLoadingMsg('e','Saving Quran Text for offline viewing ..');
+       saveQuran(res, function(ins) {
+         $.mobile.showPageLoadingMsg('e','Completed');
+         $.mobile.hidePageLoadingMsg();
+         showTOC();
+       });
+     },
+     error: function(xhr,status,err) {
+      $.mobile.showPageLoadingMsg('e','An error occured trying to fetch Quran text');
+     }
    });
  }
 
@@ -128,13 +137,13 @@ function init() {
    null, function(tx,res) {
     var len = res.rows.item(0).len;
     if (len != 114) { 
-      doLoad();
+      doLoad(true);
      } else {
       tx.executeSql(("select count(*) as len from quran;"),
         null, function(tx,res) {
         var len = res.rows.item(0).len;
         if (len != 6236) {
-          doLoad();
+          doLoad(false);
         } else {
           showTOC();
         }
