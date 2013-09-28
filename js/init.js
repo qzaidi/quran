@@ -84,16 +84,15 @@ function init() {
  };
 
 
- var saveQuran = function(data,successCallback){
-   var data = data.split('\n').map(function(line) { return line.split('|'); });
-   db.transaction(function(transaction){
+ var saveQuran = function(text,successCallback) {
+   var data = text.split('\n',6236).map(function(line) { return line.split('|'); });
+   db.transaction(function(transaction) {
      data.forEach(function(x,idx) {
-      transaction.executeSql(("INSERT INTO quran VALUES (?,?,?);"), 
-        x, function(transaction, results) { 
-          if (idx == data.length - 1) {
-            successCallback(results);
-          }
-        }, errCallback);
+      transaction.executeSql(("INSERT INTO quran VALUES (?,?,?) ;"), x, function() { 
+        if (data.length == idx+1) {
+          successCallback();
+        }
+      }, errCallback);
      });
    });
  };
