@@ -178,7 +178,7 @@ quran.chapter(function(err,info) {
 TODO
 ----
 The npm module stores quran db as a sqlite database and exposes it via an API. With webSQL, it should be possible to do the same for a pure 
-javascript application, without requiring a server side component. That's the idea behind [Quran browser](https://qzaidi.github.io/quran), and I am looking to see
+javascript application, without requiring a server side component. That's the idea behind [Quran browser](http://qzaidi.github.io/quran), and I am looking to see
 if I can make a websql version available which supports the same API in browser.
 
 Credits
