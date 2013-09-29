@@ -24,17 +24,7 @@
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/earlyaccess/scheherazade.css" rel="stylesheet" type="text/css">
     <script src="js/modernizr-2.0.6.min.js"></script>
-    <script>
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-27791118-2']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+    {% include ga.html %}
     <script src="js/dust-core-1.2.3.min.js"></script>
     <script src="js/dust-templ.js"></script>
     <script src="js/quran-data.js"></script>
