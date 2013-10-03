@@ -3,8 +3,6 @@ layout: default
 title: quran.js
 relative: '../'
 ---
-<script chapter=15 verse=9 selector='#verse' src="{{ page.relative }}js/quran.js" type="text/javascript">
-</script>
 <div id="javascriptApi" data-role="page" class="page innerPage">
   <div class="topGrahic"></div>
   <div class="padpage padtop">
@@ -30,6 +28,22 @@ relative: '../'
     {% endhighlight %}
     <p> And here's that snippet, in action. Please <a rel="external" href="https://github.com/qzaidi/quran/issues/new"> report an issue</a> if you do not see the arabic text below. </p>
     <p id="verse" class="arabic doublespaced"></p>
+    <script chapter=15 verse=9 selector='#verse' 
+      src="{{ page.relative }}js/quran.js" type="text/javascript">
+    </script>
+
+    <p> Sometimes, its important to see a verse in its context, for context adds to the meaning. Add a count to fetch multiple verses</p>
+    <script chapter=60 verse=2 count=3 selector='#verses' 
+      src="{{ page.relative }}js/quran.js" type="text/javascript">
+    </script>
+    {% highlight html%}
+    <div id='verses'></div>
+    <script 
+      chapter=60 verse=2 count=3 selector='#verses'
+      src="{{ site.url }}js/quran.js">
+    </script>
+    {% endhighlight %}
+    <p class="arabic doublespaced" id='verses'>Loading ...</p>
     <h3> How it works </h3>
     <p> Unlike the old and the new testament, Quran is only 6236 (or 6348, depending on how you count) verses. I have imported the arabic text from tanzil.net
     in a <a href="https://docs.google.com/spreadsheet/pub?key=0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc&output=html">public google spreadsheet</a>,
