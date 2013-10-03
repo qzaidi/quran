@@ -9,12 +9,12 @@ function toArabDigits(num) {
   return anum;
 }
 
-var thisScript = document.currentScript || document.getElementsByTagName('script').pop();
+var thisScript = document.currentScript || Array.prototype.slice.call(document.getElementsByTagName('script')).pop();
 var chapter = thisScript.getAttribute('chapter')|0;
 var verse = thisScript.getAttribute('verse')|0;
 var selector = thisScript.getAttribute('selector');
 var renderFunc = function(x) { 
-  document.querySelector(selector).innerText = x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾ ';
+  document.querySelector(selector).innerHTML = x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾ ';
 };
 var vnum = 0;
 for (var i = 1; i < chapter; i++) {

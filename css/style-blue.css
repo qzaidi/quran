@@ -1000,9 +1000,7 @@ a:visited,
 a:focus,
 a:hover {
   text-decoration: none;
-  color: #222222;
-  /*color: @textColor;*/
-
+  color: #2489ce;
 }
 body, .page, .ui-overlay-c {
   font-family: 'Source Sans Pro', sans-serif;
