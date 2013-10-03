@@ -12,8 +12,13 @@ relative: '../'
       <img style="position: absolute; top: 0; right: 0; border: 0;" 
       src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
     </a>
-    <p> Muslims believe that the Glorious Quran is the unaltered word of Allah, revealed directly to the Prophet of Islam. This project offers
-    a javascript API to make it easier to reference it in you webpages. Here's the snippet of code you need to display verse 9 from chapter 15.</p>
+
+    <p> The Glorious Quran seems to attract more misinformation, rage , fear and reverence than any other book in the 21st Century. And yet, this subtle
+    text which repeatedly exhorts its reader to ponder and think, is rarely discussed in a meaningful, intelligent discourse, even among those who consider it the unaltered word of God. This project is a humble attempt to make it more accessible to all, by offering a javascript API to the sacred text. </p>
+
+    <h3> Examples </h3>
+
+    <p>Here's the snippet of code you need to display verse 9 from chapter 15.</p>
     {% highlight javascript%}
     <script 
       chapter=15 verse=9 selector='#verse'
@@ -21,7 +26,10 @@ relative: '../'
     </script>
     {% endhighlight %}
 
-    <p> This assumes you have an element on your page that can be accessed using the selector #verse. You can style it as you wish</p>
+    <p> 
+    This assumes you have an element on your page that can be accessed using the selector #verse. You can style it as you wish,
+    we recommend setting the direction to rtl and using a nice web font like <a href="http://www.google.com/fonts/earlyaccess">Scheherazade</a>.
+    </p>
 
     {% highlight html%}
     <div id="verse"></div>
@@ -32,22 +40,36 @@ relative: '../'
       src="{{ page.relative }}js/quran.js" type="text/javascript">
     </script>
 
-    <p> Sometimes, its important to see a verse in its context, for context adds to the meaning. Add a count to fetch multiple verses</p>
-    <script chapter=60 verse=2 count=3 selector='#verses' 
+    <p> Sometimes, its important to see a verse in its context, for context adds to the meaning. Add a count to fetch multiple verses.</p>
+    <script chapter=93 verse=6 count=4 selector='#verses' 
       src="{{ page.relative }}js/quran.js" type="text/javascript">
     </script>
     {% highlight html%}
     <div id='verses'></div>
     <script 
-      chapter=60 verse=2 count=3 selector='#verses'
+      chapter=93 verse=6 count=4 selector='#verses'
       src="{{ site.url }}js/quran.js">
     </script>
     {% endhighlight %}
-    <p class="arabic doublespaced" id='verses'>Loading ...</p>
+    <p class="arabic doublespaced" id='verses'>... Loading</p>
+    <script chapter=93 verse=6 count=5 selector='#verses2' trans='#translation'
+      src="{{ page.relative }}js/quran.js" type="text/javascript">
+    </script>
+    <p> While no translation can capture the subtle meanings, for lesser mortals who don't understand Arabic, the english helps. To see the translation, add another parameter called trans, and set it to the element where you would like to show the translation.</p>
+    {% highlight html%}
+    <div id='verses2'></div>
+    <div id='translation'></div>
+    <script 
+      chapter=93 verse=6 count=5 selector='#verses2' trans='#translation'
+      src="{{ site.url }}js/quran.js">
+    </script>
+    {% endhighlight %}
+    <p class="arabic doublespaced" id='verses2'>... Loading</p>
+    <blockquote class="english" id="translation"></blockquote>
     <h3> How it works </h3>
-    <p> Unlike the old and the new testament, Quran is only 6236 (or 6348, depending on how you count) verses. I have imported the arabic text from tanzil.net
-    in a <a href="https://docs.google.com/spreadsheet/pub?key=0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc&output=html">public google spreadsheet</a>,
-    and the quran.js script uses the json API of google spreadsheets. Hosting of the script is courtsey github. </p>
+    <p> Unlike the old and the new Testaments, Quran is only 6236 verses long(or 6348, depending on how you count). I have imported the arabic text 
+    from tanzil.net in a <a href="https://docs.google.com/spreadsheet/pub?key=0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc&output=html">
+      public google spreadsheet</a>, and the quran.js script uses the json API of google spreadsheets. Hosting of the script is courtsey github. </p>
     <p> We also have a <a data-ajax="false" href="../">webSQL API</a></li> and a
     <a href="https://github.com/qzaidi/quran">Node.js API</a> for Holy Quran.  </p>
   </div>
