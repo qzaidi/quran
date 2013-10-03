@@ -1,0 +1,23 @@
+---
+layout: default
+title: Javascript API
+relative: '../'
+---
+<script chapter=15 verse=9 selector='#verse' src="{{ page.relative }}js/quran.js" type="text/javascript">
+</script>
+<div id="javascriptApi" data-role="page" class="page innerPage">
+  <div class="topGrahic"></div>
+  <div class="padpage padtop">
+    <h1>Quran: Javascript API</h1>
+    <p> Muslims believe that the Glorious Quran is the unaltered word of Allah, revealed directly to the Prophet of Islam. This project offers
+    a javascript API to make it easier to reference it in you webpages. Here's the snippet of code you need to display verse 9 from chapter 15.</p>
+    {% highlight javascript%}
+    <script 
+      chapter=15 verse=9 selector='#verse'
+      src="{{ site.url }}js/quran.js">
+    </script>
+    {% endhighlight %}
+    <p> And here's that snippet, in action </p>
+    <p id="verse" class="arabic doublespaced"></p>
+  </div>
+</div>
