@@ -31,23 +31,23 @@ relative: '../'
       src="{{ page.relative }}js/quran.js" type="text/javascript">
     </script>
 
-    <p> A div is automatically created and the default styling applied. Sometimes, the defaults aren't good enough. For example, you may want finer control on font family and font size. To do this, create an element on your page and pass its selector to quran.js. You can style that element as you wish,
-    we recommend setting the direction to rtl and using a nice web font like <a href="http://www.google.com/fonts/earlyaccess">Scheherazade</a>. We would use some css classes we defined earlier on this page to accomplish this.
-    </p>
+    <p> A div is automatically created to hold the arabic text, and the default styling is applied. Thats mostly about setting the direction to rtl and using a nice web font like <a href="http://www.google.com/fonts/earlyaccess">Scheherazade</a>.</p> 
+   
+    <p> When the defaults aren't good enough, you could create and style the container element yourself, and pass its selector to quran.js. 
+    For example, if you want finer control on background color, you could do something like this </p>
 
     {% highlight html%}
     <script 
       chapter=15 verse=9 selector="#verse"
       src="{{ site.url }}js/quran.js">
     </script>
-    <div id="verse" class="arabic doublespaced"></div>
+    <div id="verse" style="background-color: #fffff2; direction: rtl;"></div>
     {% endhighlight %}
 
     <script chapter=15 verse=9 selector="#verse"
       src="{{ page.relative }}js/quran.js" type="text/javascript" selector="#verse">
     </script>
     <p class="arabic doublespaced" id="verse"></p>
-    <p> That looks better, doesn't it? </p>
 
     <p> Sometimes, its important to see a verse in its context, for context adds to the meaning. Add a count to fetch multiple verses.</p>
     <script chapter=93 verse=6 count=4 selector='#verses' 

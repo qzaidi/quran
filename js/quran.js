@@ -69,9 +69,11 @@ function getDataSource(params) {
 }
 
 (function() {
-  var thisScript = document.currentScript || Array.prototype.slice.call(document.getElementsByTagName('script')).pop();
+  var scripts = document.getElementsByTagName('script');
+  var thisScript = document.currentScript || scripts[scripts.length-1];
   var params = {};
-  var gs;
+  var s = scripts[0];
+  var gs,l;
 
   [ 'chapter', 'verse', 'count', 'selector', 'trans' ].forEach(function(k) {
     var p =thisScript.getAttribute(k);
@@ -81,14 +83,19 @@ function getDataSource(params) {
   });
 
   if (!params.selector) {
+    l = document.createElement('link');
+    l.setAttribute('rel','stylesheet');
+    l.setAttribute('type','text/css');
+    l.setAttribute('href', thisScript.getAttribute('src').replace('.js','.css'));
+    s.parentNode.insertBefore(l,s);
     params.elem = document.createElement('div');
-    params.elem.style.cssText="direction: rtl; line-height: 2.35em; font-size: 20px; word-spacing: 5px";
+    params.elem.className = 'qarabic qdoublespaced';
+    //params.elem.style.cssText="direction: rtl; line-height: 2.35em; font-size: 20px; word-spacing: 5px";
     thisScript.parentNode.insertBefore(params.elem,thisScript);
   }
 
   gs = document.createElement('script');
   gs.async="true";
   gs.src=getDataSource(params);
-  var s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(gs, s);
 }());
