@@ -21,24 +21,33 @@ relative: '../'
     <p>Here's the snippet of code you need to display verse 9 from chapter 15.</p>
     {% highlight javascript%}
     <script 
-      chapter=15 verse=9 selector='#verse'
+      chapter=15 verse=9 
       src="{{ site.url }}js/quran.js">
     </script>
     {% endhighlight %}
 
-    <p> 
-    This assumes you have an element on your page that can be accessed using the selector #verse. You can style it as you wish,
-    we recommend setting the direction to rtl and using a nice web font like <a href="http://www.google.com/fonts/earlyaccess">Scheherazade</a>.
+   <p> And here's that snippet, in action. Please <a rel="external" href="https://github.com/qzaidi/quran/issues/new"> report an issue</a> if you do not see the arabic text below. </p>
+    <script chapter=15 verse=9 
+      src="{{ page.relative }}js/quran.js" type="text/javascript">
+    </script>
+
+    <p> A div is automatically created and the default styling applied. Sometimes, the defaults aren't good enough. For example, you may want finer control on font family and font size. To do this, create an element on your page and pass its selector to quran.js. You can style that element as you wish,
+    we recommend setting the direction to rtl and using a nice web font like <a href="http://www.google.com/fonts/earlyaccess">Scheherazade</a>. We would use some css classes we defined earlier on this page to accomplish this.
     </p>
 
     {% highlight html%}
-    <div id="verse"></div>
-    {% endhighlight %}
-    <p> And here's that snippet, in action. Please <a rel="external" href="https://github.com/qzaidi/quran/issues/new"> report an issue</a> if you do not see the arabic text below. </p>
-    <p id="verse" class="arabic doublespaced"></p>
-    <script chapter=15 verse=9 selector='#verse' 
-      src="{{ page.relative }}js/quran.js" type="text/javascript">
+    <script 
+      chapter=15 verse=9 selector="#verse"
+      src="{{ site.url }}js/quran.js">
     </script>
+    <div id="verse" class="arabic doublespaced"></div>
+    {% endhighlight %}
+
+    <script chapter=15 verse=9 selector="#verse"
+      src="{{ page.relative }}js/quran.js" type="text/javascript" selector="#verse">
+    </script>
+    <p class="arabic doublespaced" id="verse"></p>
+    <p> That looks better, doesn't it? </p>
 
     <p> Sometimes, its important to see a verse in its context, for context adds to the meaning. Add a count to fetch multiple verses.</p>
     <script chapter=93 verse=6 count=4 selector='#verses' 

@@ -14,14 +14,23 @@ function toArabDigits(num) {
  * Return a custom rendering function for a given selector
  *
  **/
-function getRenderFunc(selector,trans,verse) { 
+function getRenderFunc(params) { 
+  var elem = params.elem;
+  var selector = params.selector;
+  var trans = params.trans;
+  var verse = params.verse;
   var randnum = Math.random()*1000000|0;
   var func = 'quran' + randnum;
+
   window[func] = function(x) {
+    // late resolution of elem 
+    if (!elem) {
+      elem = document.querySelector(params.selector);
+    }
     if (x.entry && x.entry.content) {
-      document.querySelector(selector).innerHTML = x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾ ';
+      elem.innerHTML = x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾ ';
     } else {
-      document.querySelector(selector).innerHTML = x.table.rows.map(function(row,idx) {
+      elem.innerHTML = x.table.rows.map(function(row,idx) {
         return row.c[0].v + '<nobr> ﴿' + toArabDigits(verse+idx) + '﴾ </nobr>';
       }).join('');
       if (trans) {
@@ -43,7 +52,7 @@ function getDataSource(params) {
   var selector = params.selector;
   var trans = params.trans;
   var src = "https://spreadsheets.google.com/";
-  var func = getRenderFunc(selector,trans,verse);
+  var func = getRenderFunc(params);
   var end;
 
   for (var i = 1; i < chapter; i++) {
@@ -62,13 +71,22 @@ function getDataSource(params) {
 (function() {
   var thisScript = document.currentScript || Array.prototype.slice.call(document.getElementsByTagName('script')).pop();
   var params = {};
+  var gs;
+
   [ 'chapter', 'verse', 'count', 'selector', 'trans' ].forEach(function(k) {
     var p =thisScript.getAttribute(k);
     if (p) {
       params[k] = p;
     }
   });
-  var gs = document.createElement('script');
+
+  if (!params.selector) {
+    params.elem = document.createElement('div');
+    params.elem.style.cssText="direction: rtl; line-height: 2.35em; font-size: 20px; word-spacing: 5px";
+    thisScript.parentNode.insertBefore(params.elem,thisScript);
+  }
+
+  gs = document.createElement('script');
   gs.async="true";
   gs.src=getDataSource(params);
   var s = document.getElementsByTagName('script')[0];
