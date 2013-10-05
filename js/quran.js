@@ -511,7 +511,7 @@ function getRenderFunc(params) {
   var elem = params.elem;
   var selector = params.selector;
   var trans = params.trans;
-  var verse = params.verse;
+  var verse = params.verse|0;
   var randnum = Math.random()*1000000|0;
   var func = 'quran' + randnum;
 
@@ -539,10 +539,9 @@ function getRenderFunc(params) {
 function getDataSource(params) {
   var vnum = 0;
   var chapter = params.chapter;
-  var verse = params.verse|0;
   var count = params.count|0;
+  var verse = params.verse|0;
   var chapter = params.chapter|0;
-  var selector = params.selector;
   var trans = params.trans;
   var src = "https://spreadsheets.google.com/";
   var func = getRenderFunc(params);
