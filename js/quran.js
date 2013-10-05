@@ -552,7 +552,7 @@ function getDataSource(params) {
     vnum += QuranData.Sura[i][1];
   }
   vnum += verse + 1; // compensate for header row
-  if (count) {
+  if (count || trans) {
     end = trans?'D':'C';
     src+="a/zaidi.me/tq?key=0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc&range=C" + vnum + "%3a"+end+(vnum+count)+"&tqx=responseHandler:" + func;
   } else {
