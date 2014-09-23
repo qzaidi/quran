@@ -74,7 +74,7 @@ var quran = {
     
     qurandb.all(query,function(err,res) {
       if (!err && res.length == 0) {
-        err = new Error('Selectors out of range');
+        err = new Error('Selectors out of range ' + query);
       }
       callback(err,res);
     });
@@ -94,8 +94,28 @@ var quran = {
     qurandb.all(query, function(err,res) {
       callback(err,res);
     });
-  }
+  },
 
+  juz: function(juzNum, callback) {
+    var query = 'select * from juz';
+
+    if (!callback && typeof(juzNum) == 'function') {
+      callback = juzNum;
+      juzNum = undefined;
+    }
+
+    if (juzNum && juzNum > 30) {
+      return callback(new Error('Juz Index out of bounds ' + juzNum));
+    }
+
+    if (juzNum) {
+      query += ' where id=' + juzNum;
+    }
+
+    qurandb.all(query, function(err,res) {
+      callback(err,res);
+    });
+  }
 };
 
 module.exports = quran;

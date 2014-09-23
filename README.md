@@ -85,6 +85,7 @@ quran.select({ chapter: 1, verse: [ 2, 4, 6 ]}, function(err,verses) {
 ```
 
 Currently, only arabic text and english, hindi and urdu translations are supported, to limit package size.
+You can however, easily add translations to this package. Open an issue if you want to.
 
 To fetch both the arabic text and translation, set the language option to en.
 
@@ -175,11 +176,22 @@ quran.chapter(function(err,info) {
 
 ```
 
+To access by juz, for example, first 10 verses of juz 28, use this pattern
+
+```
+quran.juz(28,function(err,j) {
+  console.log(err || j[0]);
+  if (!err) {
+    quran.select({ chapter: j[0].surah }, { offset: j[0].ayah-1, limit: 10 }, function(err,verses) {
+      console.log(err || verses);
+    });
+  }
+});
+```
+
 TODO
 ----
-The npm module stores quran db as a sqlite database and exposes it via an API. With webSQL, it should be possible to do the same for a pure 
-javascript application, without requiring a server side component. That's the idea behind [Quran browser](http://qzaidi.github.io/quran), and I am looking to see
-if I can make a websql version available which supports the same API in browser.
+The npm module stores quran db as a sqlite database and exposes it via an API. With webSQL, it should be possible to do the same for a pure javascript application, without requiring a server side component. That's the idea behind [Quran browser](http://qzaidi.github.io/quran), and it might be interesting to make a websql version available which supports the same API in browser.
 
 Credits
 -------

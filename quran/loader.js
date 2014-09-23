@@ -75,10 +75,22 @@ function loadmeta() {
         console.log(err);
       }
     });
+
+    db.run('create table juz (surah INTEGER, ayah INTEGER, id INTEGER)', function(err) {
+      if (!err) {
+        var stmt = db.prepare('INSERT INTO juz values (?,?,?)');
+        QuranData.Juz.forEach(function(x,idx) {
+          x.push(idx);
+          stmt.run(x);
+        });
+        stmt.finalize();
+      } else {
+        console.log(err);
+      }
+    });
   });
 }
 
 (function main() {
   readFile(process.argv[2],initdb);
-
 }());

@@ -21,3 +21,13 @@ console.log('Fetch meta info about all chapters');
 quran.chapter(function(err,v) {
   console.log(err || v);
 });
+
+console.log('Fetch first 10 verses of juz 2');
+quran.juz(28,function(err,j) {
+  console.log(err || j[0]);
+  if (!err) {
+    quran.select({ chapter: j[0].surah }, { offset: j[0].ayah - 1, limit: 10 }, function(err,verses) {
+      console.log(err || verses);
+    });
+  }
+});
