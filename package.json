@@ -1,6 +1,6 @@
 {
   "name": "quran",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "npm module for Al-Quran (tanzil)",
   "keywords": [ "islam", "quran", "allah", "muslim", "koran","hindi","urdu" ],
   "main": "index.js",
