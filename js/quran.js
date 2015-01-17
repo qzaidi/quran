@@ -492,12 +492,12 @@ QuranData.Sajda = [
 	[96, 19, 'obligatory'],
 ];
 function toArabDigits(num) {
-  var anum = '';
+  var anum = '', len;
   var arabdigits = [ '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧',  '٨','٩' ];
-  num = Number(num);
-  while (num) {
-    anum += arabdigits[num%10]; 
-    num = Math.floor(num/10,0);
+  num = num.toString();
+  var i;
+  for (i = 0, len = num.length; i < len; i++) {
+    anum += arabdigits[num[i]];
   }
   return anum;
 }
@@ -511,7 +511,7 @@ function getRenderFunc(params) {
   var elem = params.elem;
   var selector = params.selector;
   var trans = params.trans;
-  var verse = params.verse|0;
+  var verse = params.verse;
   var randnum = Math.random()*1000000|0;
   var func = 'quran' + randnum;
 
@@ -521,7 +521,7 @@ function getRenderFunc(params) {
       elem = document.querySelector(params.selector);
     }
     if (x.entry && x.entry.content) {
-      elem.innerHTML = x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾ ';
+      elem.innerHTML = x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾';
     } else {
       elem.innerHTML = x.table.rows.map(function(row,idx) {
         return row.c[0].v + '<nobr> ﴿' + toArabDigits(verse+idx) + '﴾ </nobr>';
@@ -539,9 +539,10 @@ function getRenderFunc(params) {
 function getDataSource(params) {
   var vnum = 0;
   var chapter = params.chapter;
-  var count = params.count|0;
   var verse = params.verse|0;
+  var count = params.count|0;
   var chapter = params.chapter|0;
+  var selector = params.selector;
   var trans = params.trans;
   var src = "https://spreadsheets.google.com/";
   var func = getRenderFunc(params);
@@ -567,13 +568,18 @@ function getDataSource(params) {
   var s = scripts[0];
   var gs,l;
 
-  [ 'chapter', 'verse', 'count', 'selector', 'trans' ].forEach(function(k) {
+  [ 'chapter', 'verse', 'count', 'selector', 'trans', 'audio' ].forEach(function(k) {
     var p =thisScript.getAttribute(k);
     if (p) {
       params[k] = p;
     }
   });
 
+  function leadZeroes(num,lead) {
+    return new Array(lead+1 - String(num).length).join('0') + String(num) ;
+  }
+
+  console.log(params);
   if (!params.selector) {
     l = document.createElement('link');
     l.setAttribute('rel','stylesheet');
@@ -582,7 +588,12 @@ function getDataSource(params) {
     s.parentNode.insertBefore(l,s);
     params.elem = document.createElement('div');
     params.elem.className = 'qarabic qdoublespaced';
-    //params.elem.style.cssText="direction: rtl; line-height: 2.35em; font-size: 20px; word-spacing: 5px";
+    if (params.audio) {
+      params.elem.onclick = function() { 
+        new Audio('http://www.everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/' + 
+          leadZeroes(params.chapter,3) + leadZeroes(params.verse,3) + '.mp3').play();
+      };
+    }
     thisScript.parentNode.insertBefore(params.elem,thisScript);
   }
 

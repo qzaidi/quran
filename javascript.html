@@ -41,7 +41,7 @@ relative: '../'
       chapter=15 verse=9 selector="#verse"
       src="{{ site.url }}js/quran.js">
     </script>
-    <div id="verse" style="background-color: #fffff2; direction: rtl;"></div>
+    <div id="verse" style="background-color: #fffff2; direction: rtl;"></div> ♫
     {% endhighlight %}
 
     <script chapter=15 verse=9 selector="#verse"
@@ -75,6 +75,22 @@ relative: '../'
     {% endhighlight %}
     <p class="arabic doublespaced" id='verses2'>... Loading</p>
     <blockquote class="english" id="translation"></blockquote>
+    <p>Finally, if you want to listen, you can set audio to true like this. Clicking on the verse then would play it.
+    {% highlight html%}
+    <div id='verses'></div>
+    <script 
+      chapter=93 verse=6 
+      audio="true"
+      src="{{ site.url }}js/quran.js">
+    </script>
+    {% endhighlight %}
+    <script 
+      chapter=93 verse=6 
+      audio="true"
+      src="{{ site.url }}js/quran.js">
+    </script>
+    This feature is experimental and needs some work. It will only work when the default styling is used (no selector), and there is no indication on the UI. Both would be fixed.
+    </p>
     <h3> How it works </h3>
     <p> Unlike the old and the new Testaments, Quran is only 6236 verses long(or 6348, depending on how you count). I have imported the arabic text 
     from tanzil.net in a <a href="https://docs.google.com/spreadsheet/pub?key=0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc&output=html">
