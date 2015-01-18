@@ -41,13 +41,13 @@ relative: '../'
       chapter=15 verse=9 selector="#verse"
       src="{{ site.url }}js/quran.js">
     </script>
-    <div id="verse" style="background-color: #fffff2; direction: rtl;"></div> ♫
+    <div id="verse" style="font-size: 28px; padding: 5px; direction: rtl;"></div>
     {% endhighlight %}
 
     <script chapter=15 verse=9 selector="#verse"
       src="{{ page.relative }}js/quran.js" type="text/javascript" selector="#verse">
     </script>
-    <p class="arabic doublespaced" id="verse"></p>
+    <div id="verse" style="font-size: 28px; padding: 5px; direction: rtl;"></div>
 
     <p> Sometimes, its important to see a verse in its context, for context adds to the meaning. Add a count to fetch multiple verses.</p>
     <script chapter=93 verse=6 count=4 selector='#verses' 

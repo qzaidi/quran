@@ -579,7 +579,6 @@ function getDataSource(params) {
     return new Array(lead+1 - String(num).length).join('0') + String(num) ;
   }
 
-  console.log(params);
   if (!params.selector) {
     l = document.createElement('link');
     l.setAttribute('rel','stylesheet');
@@ -587,7 +586,7 @@ function getDataSource(params) {
     l.setAttribute('href', thisScript.getAttribute('src').replace('.js','.css'));
     s.parentNode.insertBefore(l,s);
     params.elem = document.createElement('div');
-    params.elem.className = 'qarabic qdoublespaced';
+    params.elem.className = 'ayahBox qarabic';
     if (params.audio) {
       params.elem.onclick = function() { 
         new Audio('http://www.everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/' + 

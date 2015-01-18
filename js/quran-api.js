@@ -93,7 +93,7 @@ function getDataSource(params) {
     l.setAttribute('href', thisScript.getAttribute('src').replace('.js','.css'));
     s.parentNode.insertBefore(l,s);
     params.elem = document.createElement('div');
-    params.elem.className = 'qarabic qdoublespaced';
+    params.elem.className = 'qarabic ayahBox';
     if (params.audio) {
       params.elem.onclick = function() { 
         new Audio('http://www.everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/' + 

@@ -19,8 +19,16 @@
   padding: 25px;
   text-align: justify;
   word-spacing: 5px;
+  color: #0076A3;
 }
 
 .qdoublespaced {
  line-height: 2.35em;
+}
+
+.ayahBox {
+  border: 1px dotted;
+  background-color: #FFFFF2;
+  padding: 8px;
+  margin: 5px;
 }
