@@ -575,6 +575,14 @@ function getDataSource(params) {
     }
   });
 
+  if (params.chapter == undefined) {
+    params.chapter = (Math.random()*QuranData.Sura.length)|0 + 1;
+  }
+
+  if (params.verse == undefined) {
+    params.verse = (Math.random()*QuranData.Sura[params.chapter][1])|0;
+  }
+
   function leadZeroes(num,lead) {
     return new Array(lead+1 - String(num).length).join('0') + String(num) ;
   }
