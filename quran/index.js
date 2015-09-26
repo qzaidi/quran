@@ -115,6 +115,14 @@ var quran = {
     qurandb.all(query, function(err,res) {
       callback(err,res);
     });
+  },
+
+  search: function(lang,text,callback) {
+    // todo:sanitize input
+    var query = 'select chapter,verse from ' + lang + ' where ' + lang + ' like "%' + text + '%";'; 
+    qurandb.all(query, function(err,res) {
+      callback(err,res)
+    });
   }
 };
 
