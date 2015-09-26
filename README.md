@@ -1,7 +1,7 @@
 quran
 ==========
 
-node.js interface to Holy Quran. 
+node.js interface to Holy Quran. See the javascript and websql versions at http://qzaidi.github.io/quran.
 
 Installation
 ------------
@@ -186,6 +186,14 @@ quran.juz(28,function(err,j) {
       console.log(err || verses);
     });
   }
+});
+```
+
+To search in a translation, use the search API
+
+```
+quran.search('en','islam',function(err,verses) {
+  // verses is an array of verses matching 'islam'
 });
 ```
 

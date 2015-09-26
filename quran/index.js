@@ -119,7 +119,7 @@ var quran = {
 
   search: function(lang,text,callback) {
     // todo:sanitize input
-    var query = 'select chapter,verse from ' + lang + ' where ' + lang + ' like "%' + text + '%";'; 
+    var query = 'select chapter,verse,' + lang + ' from ' + lang + ' where ' + lang + ' like "%' + text + '%";'; 
     qurandb.all(query, function(err,res) {
       callback(err,res)
     });
