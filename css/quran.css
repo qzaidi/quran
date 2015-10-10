@@ -12,3 +12,17 @@
   line-height: 48px;
   font-size: 20px;
 }
+
+.ayahBoxNum {
+  display: block;
+  background: #FEF2DA;
+  text-decoration: none;
+  color: #D6B169;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  font-size: 18px;
+  float: left;
+  margin-right: 8px;
+  padding: 10px 8px;
+  text-align: center;
+}

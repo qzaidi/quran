@@ -511,7 +511,7 @@ function getRenderFunc(params) {
   var elem = params.elem;
   var selector = params.selector;
   var trans = params.trans;
-  var verse = params.verse;
+  var verse = params.verse|0;
   var randnum = Math.random()*1000000|0;
   var func = 'quran' + randnum;
 
@@ -520,10 +520,11 @@ function getRenderFunc(params) {
     if (!elem) {
       elem = document.querySelector(params.selector);
     }
+    innerHTML = '<div class="ayahBoxNum">'  + params.chapter + ':' + verse;
     if (x.entry && x.entry.content) {
-      elem.innerHTML = x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾';
+      innerHTML += '</div>' + x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾';
     } else {
-      elem.innerHTML = x.table.rows.map(function(row,idx) {
+      innerHTML += '-' + (Number(verse) + Number(params.count)) + '</div>' + x.table.rows.map(function(row,idx) {
         return row.c[0].v + '<nobr> ﴿' + toArabDigits(verse+idx) + '﴾ </nobr>';
       }).join('');
       if (trans) {
@@ -532,6 +533,7 @@ function getRenderFunc(params) {
         }).join(' ');
       }
     }
+    elem.innerHTML = innerHTML;
   }
   return func;
 }
