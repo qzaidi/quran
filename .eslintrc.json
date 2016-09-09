@@ -1,0 +1,19 @@
+{
+    "extends": "standard",
+    "installedESLint": true,
+    "plugins": [
+        "standard",
+        "promise"
+    ],
+    "rules": {
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-extra-boolean-cast": "off"
+    },
+    "env": {
+        "es6": true,
+        "node": true
+    }
+}
