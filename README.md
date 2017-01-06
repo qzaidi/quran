@@ -201,6 +201,32 @@ TODO
 ----
 The npm module stores quran db as a sqlite database and exposes it via an API. With webSQL, it should be possible to do the same for a pure javascript application, without requiring a server side component. That's the idea behind [Quran browser](http://qzaidi.github.io/quran), and it might be interesting to make a websql version available which supports the same API in browser.
 
+Linting
+-------
+
+You can run eslint to check your code for best practices: http://eslint.org/. A local install of eslint as well as the
+the standard linting rule set is included as part of dev dependencies for this package and you can use the following 
+convenient command to run the linter on all JavaScript files in this package:
+
+```bash
+npm run lint
+```
+
+Run Unit Tests
+--------------
+
+Some basic tests are included, which are written using ava: https://github.com/avajs. Here's how you install ava:
+
+```bash
+npm install -g ava
+```
+
+Once you have ava, you can run the tests:
+
+```bash
+npm test
+```
+
 Credits
 -------
 

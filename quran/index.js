@@ -1,41 +1,41 @@
-"use strict";
+'use strict';
 
 var util = require('util');
 var model = require('./db');
-var qurandb = model('qurandb','r');
+var qurandb = model('qurandb', 'r');
 
 var quran = {
-  get: function(chapter,verse,callback) {
+  get: function (chapter, verse, callback) {
     if (!callback && typeof (verse) === 'function') {
       callback = verse;
       verse = undefined;
     }
-    this.select({ chapter: chapter, verse: verse }, function(err,res) {
+    this.select({ chapter: chapter, verse: verse }, function (err, res) {
       var verses;
       if (!err && res.length) {
-        verses = res.map(function(x) { return x.ar; });
+        verses = res.map(function (x) { return x.ar; });
       }
-      callback(err,verses);
+      callback(err, verses);
     });
   },
 
-  select: function(filters,options,callback) {
-    var language; 
+  select: function (filters, options, callback) {
+    var language;
     var params = [];
     var query = 'select * from ar a ';
 
-    var l = function(x) {
-      query += ' join ' + x + ' using(chapter,verse)'; 
+    var l = function (x) {
+      query += ' join ' + x + ' using(chapter,verse)';
     };
 
     if (!callback && typeof (options) === 'function') {
       callback = options;
       options = {};
-    } 
+    }
 
     language = options.language || 'ar';
 
-    if (language != 'ar') {
+    if (language !== 'ar') {
       if (util.isArray(language)) {
         language.forEach(l);
       } else {
@@ -44,7 +44,7 @@ var quran = {
     }
 
     if (filters) {
-      Object.keys(filters).forEach(function(k) { 
+      Object.keys(filters).forEach(function (k) {
         var f = filters[k];
         if (f) {
           if (util.isArray(f)) {
@@ -55,15 +55,15 @@ var quran = {
         }
       });
 
-      query += ' where ' + params.join(' and ') ;
+      query += ' where ' + params.join(' and ');
     }
-    
+
     query += ' order by chapter,verse ';
 
     if (options) {
-      [ 'limit', 'offset' ].forEach(function(x) {
+      ['limit', 'offset'].forEach(function (x) {
         if (options[x]) {
-          query += x + ' ' + options[x] + ' '; 
+          query += x + ' ' + options[x] + ' ';
         }
       });
     }
@@ -71,18 +71,18 @@ var quran = {
     if (options.debug) {
       console.log(query);
     }
-    
-    qurandb.all(query,function(err,res) {
-      if (!err && res.length == 0) {
+
+    qurandb.all(query, function (err, res) {
+      if (!err && res.length === 0) {
         err = new Error('Selectors out of range ' + query);
       }
-      callback(err,res);
+      callback(err, res);
     });
   },
 
-  chapter: function(chapterNum,callback) {
+  chapter: function (chapterNum, callback) {
     var query = 'select * from chapters';
-    if (!callback && typeof(chapterNum) == 'function') {
+    if (!callback && typeof (chapterNum) === 'function') {
       callback = chapterNum;
       chapterNum = undefined;
     }
@@ -91,15 +91,15 @@ var quran = {
       query += ' where id=' + chapterNum;
     }
 
-    qurandb.all(query, function(err,res) {
-      callback(err,res);
+    qurandb.all(query, function (err, res) {
+      callback(err, res);
     });
   },
 
-  juz: function(juzNum, callback) {
+  juz: function (juzNum, callback) {
     var query = 'select * from juz';
 
-    if (!callback && typeof(juzNum) == 'function') {
+    if (!callback && typeof (juzNum) === 'function') {
       callback = juzNum;
       juzNum = undefined;
     }
@@ -112,16 +112,16 @@ var quran = {
       query += ' where id=' + juzNum;
     }
 
-    qurandb.all(query, function(err,res) {
-      callback(err,res);
+    qurandb.all(query, function (err, res) {
+      callback(err, res);
     });
   },
 
-  search: function(lang,text,callback) {
+  search: function (lang, text, callback) {
     // todo:sanitize input
-    var query = 'select chapter,verse,' + lang + ' from ' + lang + ' where ' + lang + ' like "%' + text + '%";'; 
-    qurandb.all(query, function(err,res) {
-      callback(err,res)
+    var query = 'select chapter, verse, ' + lang + ' from ' + lang + ' where ' + lang + ' like "%' + text + '%";';
+    qurandb.all(query, function (err, res) {
+      callback(err, res);
     });
   }
 };

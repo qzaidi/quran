@@ -2,19 +2,41 @@
   "name": "quran",
   "version": "0.0.8",
   "description": "npm module for Al-Quran (tanzil)",
-  "keywords": [ "islam", "quran", "allah", "muslim", "koran","hindi","urdu" ],
+  "keywords": [
+    "islam",
+    "quran",
+    "allah",
+    "muslim",
+    "koran",
+    "hindi",
+    "urdu"
+  ],
   "main": "index.js",
+  "ava": {
+    "files": [
+      "tests/*.js"
+    ]
+  },
   "dependencies": {
     "sqlite3": "*"
-   },
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ava",
+    "lint": "node_modules/eslint/bin/eslint.js --ignore-path .gitignore .",
     "prepublish": "sh scripts/install"
   },
   "repository": "git://github.com/qzaidi/quran.git",
   "author": "Qasim Zaidi <qasim@zaidi.me>",
-  "bugs": { 
-    "url" : "http://github.com/qzaidi/quran/issues"
+  "bugs": {
+    "url": "http://github.com/qzaidi/quran/issues"
   },
-  "license": "LGPL"
+  "license": "LGPL",
+  "devDependencies": {
+    "eslint": "^3.4.0",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.0",
+    "ava": "^0.16.0",
+    "q": "^1.4.1"
+  }
 }
