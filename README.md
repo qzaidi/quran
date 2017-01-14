@@ -197,9 +197,9 @@ quran.search('en','islam',function(err,verses) {
 });
 ```
 
-TODO
+See Also
 ----
-The npm module stores quran db as a sqlite database and exposes it via an API. With webSQL, it should be possible to do the same for a pure javascript application, without requiring a server side component. That's the idea behind [Quran browser](http://qzaidi.github.io/quran), and it might be interesting to make a websql version available which supports the same API in browser.
+The npm module stores quran db as a sqlite database and exposes it via an API. With webSQL, it is possible to do the same for a pure javascript application, without requiring a server side component. That's the idea behind [Quran browser](http://qzaidi.github.io/quran). There is also a javascript version which pulls data from a [google spreadsheet] (http://qzaidi.github.io/quran/javascript), and another one using [firebase](http://qzaidi.github.io/quran/javascript), which can be easily embedded on a website.
 
 Linting
 -------
