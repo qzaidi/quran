@@ -1,0 +1,100 @@
+---
+layout: default
+title: quran-fbase.js
+relative: '../'
+---
+<div id="javascriptApi" data-role="page" class="page innerPage">
+  <div class="topGrahic"></div>
+  <div class="padpage padtop">
+    <h1>Quran.js</h1>
+    <br/><br/>
+    <a href="https://github.com/qzaidi/quran/tree/gh-pages">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" 
+      src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
+    </a>
+
+    <p> The Glorious Quran seems to attract more misinformation, rage , fear and reverence than any other book in the 21st Century. And yet, this subtle
+    text which repeatedly exhorts its reader to ponder and think, is rarely discussed in a meaningful, intelligent discourse, even among those who consider it the unaltered word of God. This project is a humble attempt to make it more accessible to all, by offering a javascript API to the sacred text. </p>
+
+    <h3> Examples </h3>
+
+    <p>Here's the snippet of code you need to display verse 9 from chapter 15.</p>
+    {% highlight javascript%}
+    <script 
+      chapter=15 verse=9 
+      src="{{ site.url }}js/quran-fbase.js">
+    </script>
+    {% endhighlight %}
+
+   <p> And here's that snippet, in action. Please <a rel="external" href="https://github.com/qzaidi/quran/issues/new"> report an issue</a> if you do not see the arabic text below. </p>
+    <script chapter=15 verse=9 
+      src="{{ page.relative }}js/quran-fbase.js" type="text/javascript">
+    </script>
+
+    <p> A div is automatically created to hold the arabic text, and the default styling is applied. Thats mostly about setting the direction to rtl and using a nice web font like <a href="http://www.google.com/fonts/earlyaccess">Scheherazade</a>.</p> 
+   
+    <p> When the defaults aren't good enough, you could create and style the container element yourself, and pass its selector to quran-fbase.js. 
+    For example, if you want finer control on background color, you could do something like this </p>
+
+    {% highlight html%}
+    <script 
+      chapter=15 verse=9 selector="#verse"
+      src="{{ site.url }}js/quran-fbase.js">
+    </script>
+    <div id="verse" style="font-size: 28px; padding: 5px; direction: rtl;"></div>
+    {% endhighlight %}
+
+    <script chapter=15 verse=9 selector="#verse"
+      src="{{ page.relative }}js/quran-fbase.js" type="text/javascript" selector="#verse">
+    </script>
+    <div id="verse" style="font-size: 28px; padding: 5px; direction: rtl;"></div>
+
+    <p> Sometimes, its important to see a verse in its context, for context adds to the meaning. Add a count to fetch multiple verses.</p>
+    <script chapter=93 verse=6 count=4 selector='#verses' 
+      src="{{ page.relative }}js/quran-fbase.js" type="text/javascript">
+    </script>
+    {% highlight html%}
+    <div id='verses'></div>
+    <script 
+      chapter=93 verse=6 count=4 selector='#verses'
+      src="{{ site.url }}js/quran-fbase.js">
+    </script>
+    {% endhighlight %}
+    <p class="arabic doublespaced" id='verses'>... Loading</p>
+    <script chapter=93 verse=6 count=5 selector='#verses2' trans='#translation'
+      src="{{ page.relative }}js/quran-fbase.js" type="text/javascript">
+    </script>
+    <p> While no translation can capture the subtle meanings, for lesser mortals who don't understand Arabic, the english helps. To see the translation, add another parameter called trans, and set it to the element where you would like to show the translation.</p>
+    {% highlight html%}
+    <div id='verses2'></div>
+    <div id='translation'></div>
+    <script 
+      chapter=93 verse=6 count=5 selector='#verses2' trans='#translation'
+      src="{{ site.url }}js/quran-fbase.js">
+    </script>
+    {% endhighlight %}
+    <p class="arabic doublespaced" id='verses2'>... Loading</p>
+    <blockquote class="english" id="translation"></blockquote>
+    <p>Finally, if you want to listen, you can set audio to true like this. Clicking on the verse then would play it.
+    {% highlight html%}
+    <script 
+      chapter=93 verse=6 
+      audio="true"
+      src="{{ site.url }}js/quran-fbase.js">
+    </script>
+    {% endhighlight %}
+    <script 
+      chapter=93 verse=6 
+      audio="true"
+      src="{{ site.url }}js/quran-fbase.js">
+    </script>
+    This feature is experimental and needs some work. It will only work when the default styling is used (no selector), and there is no indication on the UI. Both would be fixed.
+    </p>
+    <h3> How it works </h3>
+    <p> Unlike the old and the new Testaments, Quran is only 6236 verses long(or 6348, depending on how you count). I have imported the arabic text 
+    from tanzil.net in a <a href="https://docs.google.com/spreadsheet/pub?key=0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc&output=html">
+      public google spreadsheet</a>, and the quran-fbase.js script uses the json API of google spreadsheets. Hosting of the script is courtsey github. </p>
+    <p> There is also a <a data-ajax="false" href="../">webSQL API</a></li> and a
+    <a href="https://github.com/qzaidi/quran">Node.js API</a> for Holy Quran. For feedback - find me at <a href="http://qzaidi.github.io">qzaidi.github.io</a></p> 
+  </div>
+</div>
