@@ -552,10 +552,12 @@ function getRenderFuncFB(params) {
       elem = document.querySelector(params.selector);
     }
     innerHTML = '<div class="ayahBoxNum">'  + params.chapter + ':' + verse;
-    innerHTML += '-' + (Number(verse) + Number(params.count)) + '</div>' + Object.keys(x).map(function(vnum,idx) { 
+    if (params.count) {
+      innerHTML += '-' + (Number(verse) + Number(params.count))
+    }
+    innerHTML += '</div>' + Object.keys(x).map(function(vnum,idx) { 
         return x[vnum].ar + '<nobr> ﴿' + toArabDigits(verse+idx) + '﴾ </nobr>';
     }).join('');
-    innerHTML += '-' + verse + '</div>' + x[vnum].ar + '<nobr> )' + toArabDigits(verse) + '( </nobr>';
     if (trans) {
         document.querySelector(trans).innerHTML = Object.keys(x).map(function(row,idx) {
           return x[row].en;

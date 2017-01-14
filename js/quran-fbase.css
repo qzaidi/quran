@@ -1,0 +1,34 @@
+/* 
+ * Scheherazade (Arabic) http://www.google.com/webfonts/earlyaccess
+ */
+@font-face {
+  font-family: 'Scheherazade';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//themes.googleusercontent.com/static/fonts/earlyaccess/scheherazade/v2/ScheherazadeRegOT.eot);
+  src: url(//themes.googleusercontent.com/static/fonts/earlyaccess/scheherazade/v2/ScheherazadeRegOT.eot?#iefix) format('embedded-opentype'),
+  url(//themes.googleusercontent.com/static/fonts/earlyaccess/scheherazade/v2/ScheherazadeRegOT.woff2) format('woff2'),
+  url(//themes.googleusercontent.com/static/fonts/earlyaccess/scheherazade/v2/ScheherazadeRegOT.woff) format('woff'),
+  url(//themes.googleusercontent.com/static/fonts/earlyaccess/scheherazade/v2/ScheherazadeRegOT.ttf) format('truetype');
+}
+
+.qarabic {
+  font-family: 'Scheherazade', serif;
+  font-size: 28px;
+  direction: rtl;
+  padding: 25px;
+  text-align: justify;
+  word-spacing: 5px;
+  color: #0076A3;
+}
+
+.qdoublespaced {
+ line-height: 2.35em;
+}
+
+.ayahBox {
+  border: 1px dotted;
+  background-color: #FFFFF2;
+  padding: 8px;
+  margin: 5px;
+}
