@@ -238,3 +238,9 @@ Sites using this package
 http://duas.mobi/quran.
 
 To add yours, submit a pull request.
+
+Known Issues
+------------
+
+quran.select has some unsafe joins to fetch translations and can be abused. User should sanitise what is passed in as language options, or they 
+could use quran.safe to wrap the calls (see test/select.js#FetchUnsupportedLanguage)

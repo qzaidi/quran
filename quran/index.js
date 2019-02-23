@@ -5,7 +5,34 @@ var model = require('./db');
 var qurandb = model('qurandb', 'r');
 
 var quran = {
-  get: function (chapter, verse, callback) {
+
+  langs: [],
+
+  safe: function(cb) {
+    if ( this.langs.length == 0 ) {
+     qurandb.all("select name from sqlite_master where type='table'", function (err, tables) {
+        var skip = ['chapters', 'juz']
+        var langs = tables.filter(function(x) {
+          if (skip.indexOf(x.name) == -1) {
+            return true
+          }
+          return false
+        }).map(function(x) {
+          return x.name;
+        })
+        quran.langs = langs
+        if (cb instanceof Function) {
+          cb();
+        }
+      });
+    } else {
+      if (cb instanceof Fucntion) {
+        cb();
+      }
+    }
+  },
+
+  get: function(chapter,verse,callback) {
     if (!callback && typeof (verse) === 'function') {
       callback = verse;
       verse = undefined;
@@ -23,9 +50,16 @@ var quran = {
     var language;
     var params = [];
     var query = 'select * from ar a ';
+    var supported = this.langs;
 
-    var l = function (x) {
-      query += ' join ' + x + ' using(chapter,verse)';
+
+    var l = function(x) {
+      // if supported is set, use it, else ignore it and join
+      if (supported.indexOf(x) > 0 || supported.length == 0) {
+        query += ' join ' + x + ' using(chapter,verse)';
+      } else {
+        console.log('unsupported lang',x);
+      }
     };
 
     if (!callback && typeof (options) === 'function') {

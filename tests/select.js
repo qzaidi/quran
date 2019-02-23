@@ -1,10 +1,12 @@
 'use strict';
 var test = require('ava');
 var q = require('q');
-var quran = require('../index');
+var quran = require('../quran/index');
+
 
 // Fetching a chapter in arabic via select
 test.serial('SelectChapter', t => {
+
   var deferred = q.defer();
 
   quran.select({ chapter: 1 }, function (err, v) {
@@ -82,4 +84,23 @@ test.serial('SelectRandomVersesFromChapterMultipleLanguages', t => {
   });
 
   return deferred.promise;
+});
+
+// fetch a random lang that is not loaded in db
+test.serial('FetchUnsupportedLanguage', t => {
+  var deferred = q.defer();
+
+  var cb = function() {
+    console.log('inside cb');
+    quran.select({ chapter: 1, verse: 2}, { debug: true, language: [  'kr', 'ur'] },function(err,v) {
+      if (!!err) {
+        deferred.reject(err);
+      } else {
+        t.is(v.length,1);
+      }
+    });
+  }
+
+  quran.safe(cb);
+
 });
