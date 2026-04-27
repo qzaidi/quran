@@ -520,11 +520,12 @@ function getRenderFunc(params) {
     if (!elem) {
       elem = document.querySelector(params.selector);
     }
-    innerHTML = '<div class="ayahBoxNum">'  + params.chapter + ':' + verse;
+    var innerHTML = '<div class="ayahBoxNum">'  + params.chapter + ':' + verse;
     if (x.entry && x.entry.content) {
       innerHTML += '</div>' + x.entry.content.$t + ' ﴿' + toArabDigits(verse) + '﴾';
     } else {
-      innerHTML += '-' + (Number(verse) + Number(params.count)) + '</div>' + x.table.rows.map(function(row,idx) {
+      var endVerse = Number(verse) + Number(params.count);
+      innerHTML += (endVerse > verse ? '-' + endVerse : '') + '</div>' + x.table.rows.map(function(row,idx) {
         return row.c[0].v + '<nobr> ﴿' + toArabDigits(verse+idx) + '﴾ </nobr>';
       }).join('');
       if (trans) {
@@ -554,12 +555,8 @@ function getDataSource(params) {
     vnum += QuranData.Sura[i][1];
   }
   vnum += verse + 1; // compensate for header row
-  if (count || trans) {
-    end = trans?'D':'C';
-    src+="a/zaidi.me/tq?key=0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc&range=C" + vnum + "%3a"+end+(vnum+count)+"&tqx=responseHandler:" + func;
-  } else {
-    src+="feeds/cells/0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc/od6/public/values/R" + vnum + "C3?alt=json-in-script&callback=" + func ;
-  }
+  end = trans ? 'D' : 'C';
+  src += "a/zaidi.me/tq?key=0Aps7j0tW_eq0dFUzN3djMC1IUUYyMHV4VFhqRUhJSmc&range=C" + vnum + "%3a" + end + (vnum + count) + "&tqx=responseHandler:" + func;
   return src;
 }
 
@@ -583,6 +580,10 @@ function getDataSource(params) {
 
   if (params.verse == undefined) {
     params.verse = (Math.random()*QuranData.Sura[params.chapter][1])|0;
+  }
+
+  if (!params.count) {
+    params.count = 0;
   }
 
   function leadZeroes(num,lead) {
