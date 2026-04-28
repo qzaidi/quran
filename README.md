@@ -227,10 +227,36 @@ Once you have ava, you can run the tests:
 npm test
 ```
 
+Claude Skill
+------------
+
+This package includes a Claude Code skill for querying the Quran via natural language.
+
+Install the skill:
+
+```bash
+ln -s "$(pwd)/.claude/skills/quran" ~/.claude/skills/quran
+```
+
+Then use `/quran` in Claude Code:
+
+```
+/quran what is the first verse of Surah Baqarah?
+/quran show me verses about justice
+/quran give me Surah Fatiha with English translation
+```
+
+Supported queries: single verses, full chapters, verse ranges, text search
+(across English, Urdu, and Hindi translations), juz lookup, and chapter metadata.
+
+See `.claude/skills/quran/SKILL.md` for the full API reference.
+
 Credits
 -------
 
-This work is based on Quran Text and Translations made available by http://tanzil.net. 
+- **Quran Text**: Uthmani script from [Tanzil](http://tanzil.net) (© Tanzil Project)
+- **Translations**: English (Sahih International), Urdu, Hindi, and Indonesian translations courtesy of [Tanzil](http://tanzil.net)
+- **Quran Metadata**: Chapter and juz boundaries from [Tanzil](http://tanzil.net) 
 
 Sites using this package
 ------------------------
