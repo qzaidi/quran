@@ -19,7 +19,7 @@ download() {
   if test -e "$2"; then
     log "$2 already downloaded, skipping"
   else
-    curl $1 > $2 || abort "failed while downloading $2"
+    curl -L $1 > $2 || abort "failed while downloading $2"
   fi
 }
 
@@ -28,7 +28,7 @@ mkdir -p contrib data
 if test -e contrib/$QURANTXT; then
   log 'already downloaded - skipping'
 else
-  curl -d 'quranType=uthmani&marks=true&sajdah=true&alef=true&outType=txt-2&agree=true' http://tanzil.net/pub/download/download.php  > contrib/$QURANTXT || abort 'download failed'
+  curl -L 'https://tanzil.net/pub/download/index.php?quranType=uthmani&marks=true&sajdah=true&tatweel=true&outType=txt-2&agree=true' > contrib/$QURANTXT || abort 'download failed'
 fi
 
 
