@@ -9,59 +9,49 @@ function loadchapter(e,data) {
   var arabdigits = [ '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧',  '٨','٩' ];
 
   function toArabDigits(num) {
-    var anum = '';
-    num = Number(num);
-    while (num) {
-      anum += arabdigits[num%10]; 
-      num = Math.floor(num/10,0);
-    }
-    return anum;
+    return String(num).split('').map(function (digit) {
+      return arabdigits[Number(digit)];
+    }).join('');
   }
 
-  function errCallback(tx,err){
-    console.log("Oh noes! There haz bin a datamabase error!");
-    console.log(err);
+  var idx = ($.mobile.chapter || 'surah=1').split('=')[1];
+  if (idx < 1 || idx > 114) {
+    idx = 1;
   }
 
-  var db = openDatabase("quran", "1.0", "Offline Quran DB", 32678);
+  Promise.all([
+    QuranStore.whenPopulated().then(function () { return QuranStore.getChapter(idx); }),
+    QuranStore.whenPopulated().then(function () { return QuranStore.getMeta(idx); })
+  ]).then(function (result) {
+    var verses = result[0] || [];
+    var title = result[1];
 
-  var loadChapter = function(idx,successCallback) {
-    db.transaction(function(transaction){
-      transaction.executeSql("SELECT * FROM metadata where id = ?;",[idx],
-      function(tx,info) {
-        transaction.executeSql(("SELECT * FROM quran where chapter = ?;"),[idx],
-          function(tx, verses){
-            successCallback(verses,info);
-          }, errCallback);
-      }, errCallback);
+    verses.sort(function (a, b) { return a.verse - b.verse; });
+
+    var items = verses.map(function (verse) {
+      return {
+        verse: toArabDigits(verse.verse),
+        ar: verse.ar
+      };
     });
-  };
 
- var idx = ($.mobile.chapter || 'surah=1').split('=')[1];
- if (idx < 1 || idx > 114) {
-  idx = 1;
- }
+    dust.render("surat", { verses: items }, function (err, out) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      $('#surat').html(out);
+    });
 
- loadChapter(idx,function(res,info) {
-   var i,item,data,title;
-   var len = res.rows.length;
-   var items = [];
-   for (i = 0; i < len; i++) {
-     item = res.rows.item(i);
-     data = {
-      verse: toArabDigits(item.verse),
-      ar: item.ar
-     };
-     items.push(data);
-   }
-   title = info.rows.item(0);
-   dust.render("surat",{ verses: items }, function(err,out) {
-     $('#surat').html(out);
-   });
-   $('#name').text(title.arname);
-   $('#header').text(title.enname + '-' + title.tname);
- });
+    if (title) {
+      $('#name').text(title.arname);
+      $('#header').text(title.enname + '-' + title.tname);
+    }
+  }).catch(function (err) {
+    console.log("Could not load this chapter");
+    console.log(err);
+    $('#header').text('Could not load this chapter');
+  });
 }
 
 $(document).on('pagebeforeshow','#offquran',loadchapter);
-
