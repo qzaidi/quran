@@ -1,5 +1,5 @@
 name: "Quran browser"
-description: ""
+description: "An offline Quran browser: read, search and listen to the Holy Quran in the browser, with a javascript and Node.js API for the text."
 
 url: "https://qzaidi.github.io/quran/"
 ga: UA-566085-5 #Google Analytics ID
