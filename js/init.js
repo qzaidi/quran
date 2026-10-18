@@ -1,34 +1,26 @@
 var QuranData;
 var $;
 
+var TOTAL_CHAPTERS = 114;
+var TOTAL_VERSES = 6236;
+
 function showTOC() {
   "use strict";
 
-  function errCallback(tx,err){
-    console.log("Oh noes! There haz bin a datamabase error!");
-    console.log(err);
-  }
-
-  var db = openDatabase("quran", "1.0", "Offline Quran DB", 32678);
-
-  var loadMeta = function(successCallback) {
-    db.transaction(function(transaction){
-      transaction.executeSql(("SELECT * FROM metadata;"),null,
-      function(transaction, results){successCallback(results);}, errCallback);
+  QuranStore.getAll("metadata").then(function (items) {
+    items.sort(function (a, b) { return a.id - b.id; });
+    dust.render("chapters", { chapters: items }, function (err, out) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      // Re-rendering the list must not stack a second copy of it.
+      $('#chapterlist').empty().append(out).listview('refresh');
     });
-  };
-
- loadMeta(function(res) {
-   var i;
-   var len = res.rows.length;
-   var items = [];
-   for (i = 0; i < len; i++) {
-     items.push((res.rows.item(i)));
-   }
-   dust.render("chapters",{ chapters: items }, function(err,out) {
-     $('#chapterlist').append(out).listview('refresh');
-   });
- });
+  }).catch(function (err) {
+    console.log("Could not read the chapter list");
+    console.log(err);
+  });
 }
 
 function init() {
@@ -37,7 +29,7 @@ function init() {
   (function() {
     $(window).scroll(function() {
       if($(this).scrollTop() > 150) {
-        $('#toTop').fadeIn();    
+        $('#toTop').fadeIn();
       } else {
         $('#toTop').fadeOut();
       }
@@ -45,114 +37,130 @@ function init() {
 
     $('#toTop').click(function() {
       $('body,html').animate({scrollTop:0},800);
-    });    
+    });
   }());
 
-  function errCallback(tx,err){
-    console.log("Oh noes! There haz bin a database error!");
-    console.log(err);
+  function status(message) {
+    $.mobile.showPageLoadingMsg('e', message);
   }
 
+  // [start, ayas, order, rukus, arabic name, transliteration, english name, type]
+  function metadataRows() {
+    return QuranData.Sura.slice(1, TOTAL_CHAPTERS + 1).map(function (sura, i) {
+      return {
+        id: i + 1,
+        start: sura[0],
+        ayas: sura[1],
+        ord: sura[2],
+        rukus: sura[3],
+        arname: sura[4],
+        tname: sura[5],
+        enname: sura[6],
+        type: sura[7]
+      };
+    });
+  }
 
-  var db = openDatabase("quran", "1.0", "Offline Quran DB", 32678);
+  // contrib/quran-uthmani.txt is chapter|verse|text per line, with a Tanzil
+  // copyright block at the end that must not be mistaken for verses.
+  function parseVerses(text) {
+    var rows = [];
+    text.split('\n').forEach(function (line) {
+      var parts = line.split('|');
+      if (parts.length < 3) {
+        return;
+      }
+      var chapter = parseInt(parts[0], 10);
+      var verse = parseInt(parts[1], 10);
+      if (!chapter || !verse) {
+        return;
+      }
+      rows.push({ chapter: chapter, verse: verse, ar: parts.slice(2).join('|') });
+    });
+    return rows;
+  }
 
-  db.transaction(function(transaction) {
-    transaction.executeSql("CREATE TABLE IF NOT EXISTS metadata (" +
-      "start INTEGER , ayas INTEGER, ord INTEGER, rukus INTEGER, arname TEXT, tname TEXT, enname TEXT,"
-    + " type TEXT, id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT);");
-  });
+  function downloadVerses() {
+    return fetch('contrib/quran-uthmani.txt').then(function (response) {
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
+      }
+      return response.text();
+    }).then(function (text) {
+      var rows = parseVerses(text);
+      if (rows.length !== TOTAL_VERSES) {
+        throw new Error('Expected ' + TOTAL_VERSES + ' verses, parsed ' + rows.length);
+      }
+      status('Saving Quran text for offline viewing ...');
+      return QuranStore.replaceAll('quran', rows);
+    });
+  }
 
-  db.transaction(function(transaction) {
-    transaction.executeSql("CREATE TABLE IF NOT EXISTS quran (" +
-      "chapter INTEGER , verse INTEGER, ar TEXT) ;");
-  });
+  function downloadMetadata() {
+    status('Loading Quran metadata ...');
+    return QuranStore.replaceAll('metadata', metadataRows());
+  }
 
- var saveMeta = function(data, successCallback){
-   db.transaction(function(transaction){
-     data.forEach(function(x) {
-       transaction.executeSql(("INSERT INTO metadata VALUES (?,?,?,?,?,?,?,?,?);"), 
-       x, function(tx, results) { successCallback(results);}, errCallback);
-     });
-   });
- };
+  status('Loading ...');
 
- var loadVerse = function(tx,line,cb) {
-   var x = line.split('|');
-   tx.executeSql("INSERT INTO quran VALUES (?,?,?);",x, 
-   function(tx,res) { cb(null); },
-   function(tx,err) { cb(err,null); });
- };
+  Promise.all([
+    QuranStore.count('metadata'),
+    QuranStore.count('quran')
+  ]).then(function (counts) {
+    var haveMetadata = counts[0] === TOTAL_CHAPTERS;
+    var haveVerses = counts[1] === TOTAL_VERSES;
 
-
- var saveQuran = function(text,successCallback) {
-   var data = text.split('\n',6236).map(function(line) { return line.split('|'); });
-   db.transaction(function(transaction) {
-     data.forEach(function(x,idx) {
-      transaction.executeSql(("INSERT INTO quran VALUES (?,?,?) ;"), x, function() { 
-        if (data.length == idx+1) {
-          successCallback();
-        }
-      }, errCallback);
-     });
-   });
- };
-
- function doLoad(loadMeta) {
-
-   if (loadMeta) {
-     $.mobile.showPageLoadingMsg('e','Loading Quran Metadata ...');
-
-     var data = QuranData.Sura.slice(1,115);
-
-     data.forEach(function(x,id) {
-       var chapter = id + 1;
-       x.push(chapter);
-     });
-
-
-     saveMeta(data,function(ins) { $.mobile.showPageLoadingMsg('e','Loaded Quran Metadata.'); });
-   }
-
-   $.mobile.showPageLoadingMsg('e','Downloading Quran Text ..');
-   $.ajax({
-     url: 'contrib/quran-uthmani.txt',
-     success: function(res) {
-       $.mobile.showPageLoadingMsg('e','Saving Quran Text for offline viewing ..');
-       saveQuran(res, function(ins) {
-         $.mobile.showPageLoadingMsg('e','Completed');
-         $.mobile.hidePageLoadingMsg();
-         showTOC();
-       });
-     },
-     error: function(xhr,status,err) {
-      $.mobile.showPageLoadingMsg('e','An error occured trying to fetch Quran text');
-     }
-   });
- }
-
- /* Load TOC */
- db.transaction(function(tx) {
-   tx.executeSql(("select count(*) as len from metadata;"),
-   null, function(tx,res) {
-    var len = res.rows.item(0).len;
-    if (len != 114) { 
-      doLoad(true);
-     } else {
-      tx.executeSql(("select count(*) as len from quran;"),
-        null, function(tx,res) {
-        var len = res.rows.item(0).len;
-        if (len != 6236) {
-          doLoad(false);
-        } else {
-          showTOC();
-        }
-      });
+    if (haveMetadata && haveVerses) {
+      $.mobile.hidePageLoadingMsg();
+      QuranStore.markPopulated();
+      showTOC();
+      return;
     }
-   }, errCallback);
- });
+
+    // The two halves are independent, so a half-finished first visit only
+    // re-downloads the half that is missing.
+    var work = Promise.resolve();
+    if (!haveMetadata) {
+      work = work.then(downloadMetadata);
+    }
+    if (!haveVerses) {
+      status('Downloading Quran text ...');
+      work = work.then(downloadVerses);
+    }
+
+    return work.then(function () {
+      $.mobile.hidePageLoadingMsg();
+      QuranStore.markPopulated();
+      showTOC();
+    });
+  }).catch(function (err) {
+    console.log('Could not prepare the offline copy');
+    console.log(err);
+    status('Could not load the Quran text. Check your connection and reload.');
+    // Let the reader report its own empty state rather than hang on "Loading".
+    QuranStore.markPopulated();
+  });
 }
 
-$(document).on('pageinit','#quranOffline', init);
+// A deep link straight to a chapter (#offquran?surah=N) never initialises the
+// table-of-contents page, so pageinit alone would leave the reader hanging on
+// "Loading ...". Run the same work on ready in that case, once only.
+var started = false;
+function start() {
+  if (started) {
+    return;
+  }
+  started = true;
+  init();
+}
+
+$(document).on('pageinit','#quranOffline', start);
+
+$(function () {
+  if (window.location.hash.indexOf('#offquran') === 0) {
+    start();
+  }
+});
 
 $( document ).on( "pagebeforechange", function( e, data ) {
   if (typeof data.toPage === 'string') {

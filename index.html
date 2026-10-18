@@ -13,8 +13,8 @@ relative: ''
       src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
     </a>
     <p>
-    This is an experimental project that uses HTML5 WebSQL APIs for locally storing Al Quran, aiming to provide an interface to view and
-    search the holy book. Firefox is not supported at the moment. We will attempt to load the Quran text automatically on first view, after
+    This is an experimental project that stores Al Quran in your browser using IndexedDB, aiming to provide an interface to view and
+    search the holy book. We will attempt to load the Quran text automatically on first view, after
     which you will be able to access it offline.
     </p>
     <p> Quran text and translations (coming soon) are courtsey <a href='http://tanzil.net'>tanzil.net</a>. </p>
@@ -31,7 +31,7 @@ relative: ''
 <div id="offquran" data-role="page" class="page innerPage">
   <div class="topGrahic"></div><a href="/" class="menuButton"><img src="img/menu-button.png" alt="Menu"></a>
   <div class="padpage padtop">
-    <h1> <a href="/offline" data-rel="back" class="back ui-link"><img src="img/icon-back.png" alt="Back"><span id="header">Loading ...</span></a></h1>
+    <h1> <a href="index.html" data-rel="back" class="back ui-link"><img src="img/icon-back.png" alt="Back"><span id="header">Loading ...</span></a></h1>
     <div id="toTop">↑ Top</div>
     <div class="surahHeaderFrame">
       <div class="surahHeaderText">سورة <span id="name"></span></div>
@@ -41,5 +41,6 @@ relative: ''
 </div>
 <script src="js/dust-core-1.2.3.min.js"></script>
 <script src="js/dust-templ.js"></script>
+<script src="js/store.js" defer="defer"></script>
 <script src="js/init.js" defer="defer"></script>
 <script src="js/loadchapter.js" defer="defer"></script>
