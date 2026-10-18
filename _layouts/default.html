@@ -9,11 +9,14 @@
     <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
     <link rel="apple-touch-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
-    <link rel="canonical" href="http://duas.mobi/offline">
+    <link rel="canonical" href="{{ site.url }}{{ page.url | remove_first: '/' }}">
     <title>{{ site.name }}</title>
     <meta name="description" content="{{ site.description }}"/>
     <meta name="author" content="Qasim Zaidi">
-    <meta property="og:image" content="http://duas.mobi/apple-touch-icon-precomposed.png">
+    <meta property="og:title" content="{{ site.name }}">
+    <meta property="og:description" content="{{ site.description }}">
+    <meta property="og:url" content="{{ site.url }}{{ page.url | remove_first: '/' }}">
+    <meta property="og:image" content="{{ site.url }}img/apple-touch-icon-precomposed.png">
     <!-- Use the .htaccess and remove these lines to avoid edge case issues.-->
     <!-- More info: h5bp.com/b/378 -->
     <!-- meta(http-equiv="X-UA-Compatible",content="IE=edge,chrome=1")-->
